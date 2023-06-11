@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Settings">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="76dp">
+
+        <!-- Day/Night Mode -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="36dp"
+                android:text="@string/nightMode" />
+
+            <Switch
+                android:id="@+id/switchDayNightMode"
+                android:layout_width="125dp"
+                android:layout_height="44dp" />
+
+            <TextView
+                android:layout_width="114dp"
+                android:layout_height="wrap_content"
+                android:text="@string/dayMode" />
+        </LinearLayout>
+
+        <!-- Language -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Hebrew" />
+
+            <Switch
+                android:id="@+id/switchLanguage"
+                android:layout_width="117dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/English" />
+        </LinearLayout>
+
+        <!-- Theme -->
+        <Button
+            android:id="@+id/buttonThemeColor"
+            android:layout_width="match_parent"
+            android:layout_height="81dp"
+            android:text="@string/Theme" />
+
+        <!-- Display Name Text Input -->
+        <TextView
+            android:layout_width="149dp"
+            android:layout_height="45dp"
+            android:text="@string/displayName" />
+
+        <EditText
+            android:id="@+id/editTextDisplayName"
+            android:layout_width="match_parent"
+            android:layout_height="74dp"
+            android:autofillHints="Choose a new display name" />
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="250dp"
+            android:layout_height="61dp"
+            android:text="@string/Save" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

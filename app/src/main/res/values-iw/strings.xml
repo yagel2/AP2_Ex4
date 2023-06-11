@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Save">שמור</string>
+    <string name="displayName">שם תצוגה</string>
+    <string name="Theme">בחר ערכת נושא</string>
+    <string name="English">אנגלית</string>
+    <string name="Hebrew">עברית</string>
+    <string name="dayMode">יום</string>
+    <string name="nightMode">לילה</string>
+</resources>
