@@ -16,4 +16,7 @@
     <string name="Hebrew">עברית</string>
     <string name="dayMode">יום</string>
     <string name="nightMode">לילה</string>
+    <string name="MessageBox">הקלד הודעה…</string>
+    <string name="UsernameHeading">שם משתמש</string>
+    <string name="Send">שלח</string>
 </resources>
