@@ -7,5 +7,6 @@
     <string name="select_image">Select Image</string>
     <string name="registerButton">Register</string>
     <string name="connectButton">Connect</string>
+    <string name="tempName">Hadar</string>
 
 </resources>
