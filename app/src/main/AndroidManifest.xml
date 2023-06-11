@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Connection"/>
+        <activity android:name=".Contacts"/>
     </application>
 
 </manifest>
