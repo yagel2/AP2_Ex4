@@ -7,6 +7,7 @@
     android:background="@color/blueInput"
     tools:context=".Settings">
 
+    <!-- Settings -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,26 +25,32 @@
         android:id="@+id/switchDayNightMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minHeight="48dp"
         android:padding="10dp"
         android:textSize="20sp"
+        android:thumbTint="@color/buttonToNextPage"
         android:text="@string/dayMode"
         app:layout_constraintBottom_toTopOf="@+id/switchLanguage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
 
+    <!-- Hebrew/English Mode -->
     <Switch
         android:id="@+id/switchLanguage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minHeight="48dp"
         android:padding="10dp"
-        android:textSize="20sp"
         android:text="@string/English"
+        android:textSize="20sp"
+        android:thumbTint="@color/buttonToNextPage"
         app:layout_constraintBottom_toTopOf="@+id/buttonThemeColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
 
+    <!-- Theme button -->
     <Button
         android:id="@+id/buttonThemeColor"
         android:layout_width="wrap_content"
@@ -52,23 +59,30 @@
         android:padding="10dp"
         android:textSize="20sp"
         android:text="@string/Theme"
+        android:textColor="@color/blueInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchLanguage" />
 
+    <!-- Display name -->
     <EditText
         android:id="@+id/editTextDisplayName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/changeDisplayName"
+        android:inputType="text"
+        android:minHeight="48dp"
         android:padding="10dp"
+        android:textColorHint="@color/buttonToNextPage"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonThemeColor" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonThemeColor"
+        android:autofillHints="display name" />
 
+    <!-- Save button -->
     <Button
         android:id="@+id/buttonSave"
         android:layout_width="wrap_content"
@@ -77,6 +91,7 @@
         android:padding="10dp"
         android:textSize="20sp"
         android:text="@string/Save"
+        android:textColor="@color/blueInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints"
