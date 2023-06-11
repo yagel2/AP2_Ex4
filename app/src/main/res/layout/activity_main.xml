@@ -31,7 +31,7 @@
         android:ems="10"
         android:hint="@string/username"
         android:inputType="textPersonName"
-        android:padding="16dp"
+        android:padding="11dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
@@ -49,7 +49,7 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:padding="16dp"
+        android:padding="11dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
         android:ems="10"
         android:hint="@string/confirmPassword"
         android:inputType="textPassword"
-        android:padding="16dp"
+        android:padding="11dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,10 +83,23 @@
         android:ems="10"
         android:hint="@string/displayName"
         android:inputType="textPersonName"
-        android:padding="16dp"
+        android:padding="11dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextConfirmPassword" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="100dp"
+        android:text="@string/registerButton"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDisplayName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
