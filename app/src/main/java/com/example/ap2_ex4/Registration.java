@@ -24,6 +24,15 @@ public class Registration extends AppCompatActivity {
                 startActivityForResult(selectImageIntent, SELECT_IMAGE);
             }
         });
+
+        Button connectButton = (Button) findViewById(R.id.register);
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Registration.this, Connection.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

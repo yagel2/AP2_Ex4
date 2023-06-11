@@ -14,16 +14,7 @@ public class Connection extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.registration);
-
-        Button selectImageButton = findViewById(R.id.selectImageButton);
-        selectImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent selectImageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(selectImageIntent, SELECT_IMAGE);
-            }
-        });
+        setContentView(R.layout.connection);
     }
 
     @Override
