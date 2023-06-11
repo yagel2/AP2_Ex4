@@ -1,6 +1,4 @@
 .idea/
-*.iml
-*.xml
 .gradle
 .DS_Store
 /captures

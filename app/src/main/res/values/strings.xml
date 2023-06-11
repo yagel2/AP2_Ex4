@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AP2_Ex4</string>
+    <string name="password">Password…</string>
+    <string name="username">Username…</string>
+    <string name="confirmPassword">Confirm Password…</string>
+    <string name="displayName">Display Name…</string>
+    <string name="select_image">Select Image</string>
+    <string name="registerButton">Register</string>
+    <string name="connectButton">Connect</string>
+
+</resources>
