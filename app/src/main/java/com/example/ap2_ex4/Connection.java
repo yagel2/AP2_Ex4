@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class Registration extends AppCompatActivity {
+public class Connection extends AppCompatActivity {
     private static final int SELECT_IMAGE = 1;  // This is the line that defines the constant
 
     @Override
