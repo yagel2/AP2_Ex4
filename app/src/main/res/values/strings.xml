@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">AP2_Ex4</string>
+    <string name="app_name" translatable="false">Chat App</string>
+    <string name="Save">Save</string>
+    <string name="displayName">Display Name</string>
+    <string name="Theme">Choose Theme</string>
+    <string name="English">English</string>
+    <string name="Hebrew">Hebrew</string>
+    <string name="dayMode">Day</string>
+    <string name="nightMode">Night</string>
 </resources>
