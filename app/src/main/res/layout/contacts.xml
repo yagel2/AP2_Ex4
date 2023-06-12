@@ -19,53 +19,68 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar"
+
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blueInput"
         tools:layout_editor_absoluteX="0dp">
 
         <ImageView
             android:id="@+id/left_photo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="64dp"
+            android:layout_height="63dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:src="@drawable/person_circle"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/name"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:gravity="center"
-            android:text="@string/tempName"
+            android:gravity="center_horizontal"
+            android:text="@string/UsernameHeading"
+            android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/right_icon"
-            app:layout_constraintStart_toEndOf="@+id/left_photo"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.511" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"  />
 
         <ImageView
             android:id="@+id/right_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="57dp"
+            android:layout_height="81dp"
+            android:layout_marginEnd="9dp"
             android:src="@drawable/ic_settings"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/names_list"
+    <ScrollView
+        android:id="@+id/names_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@android:color/white"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintBottom_toTopOf="@+id/add_button" />
+        app:layout_constraintBottom_toTopOf="@+id/add_button">
+        <LinearLayout
+            android:id="@+id/names_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/name_item" />
+            <include layout="@layout/name_item" />
+            <include layout="@layout/name_item" />
+        </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_button"
