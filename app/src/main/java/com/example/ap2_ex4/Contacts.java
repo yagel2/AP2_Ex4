@@ -1,34 +1,26 @@
 package com.example.ap2_ex4;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import java.util.ArrayList;
 
 public class Contacts extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private com.example.ap2_ex4.NamesAdapter adapter;
-    private ArrayList<String> namesList = new ArrayList<>();
+    private LinearLayout namesContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contacts);
 
-        recyclerView = findViewById(R.id.names_list);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        // specify an adapter
-        adapter = new com.example.ap2_ex4.NamesAdapter(namesList);
-        recyclerView.setAdapter(adapter);
+        namesContainer = findViewById(R.id.names_container);
 
         FloatingActionButton addButton = findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -44,8 +36,7 @@ public class Contacts extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String name = input.getText().toString();
-                        namesList.add(name);
-                        adapter.notifyDataSetChanged();
+                        addNameToList(name);
                     }
                 });
 
@@ -59,5 +50,14 @@ public class Contacts extends AppCompatActivity {
                 builder.show();
             }
         });
+    }
+
+    private void addNameToList(String name) {
+        View nameItemView = LayoutInflater.from(this).inflate(R.layout.name_item, namesContainer, false);
+
+        TextView textView = nameItemView.findViewById(R.id.name_contact);
+        textView.setText(name);
+
+        namesContainer.addView(nameItemView);
     }
 }
