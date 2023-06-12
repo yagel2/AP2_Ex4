@@ -1,12 +1,26 @@
 <resources>
-    <string name="app_name">AP2_Ex4</string>
+    <string name="app_name" translatable="false">Chat App</string>
+
     <string name="password">Password…</string>
     <string name="username">Username…</string>
-    <string name="confirmPassword">Confirm Password…</string>
-    <string name="displayName">Display Name…</string>
-    <string name="select_image">Select Image</string>
-    <string name="registerButton">Register</string>
     <string name="connectButton">Connect</string>
-    <string name="tempName">Hadar</string>
+    <string name="registerButton">Register</string>
+    <string name="displayName">Display name…</string>
+    <string name="select_image">Select image</string>
+    <string name="confirmPassword">Confirm password…</string>
+
+    <string name="Save">Save</string>
+    <string name="dayMode">Day</string>
+    <string name="Hebrew">Hebrew</string>
+    <string name="English">English</string>
+    <string name="nightMode">Night</string>
+    <string name="Settings">Settings</string>
+    <string name="Theme">Change Theme</string>
+    <string name="changeDisplayName">Change display name</string>
+    <string name="UsernameHeading">Username</string>
+    <string name="MessageBox">Type your message…</string>
+    <string name="Send">Send</string>
+    <string name="SenderMessage" translatable="false">Message content SenderMessage</string>
+    <string name="ReceiverMessage" translatable="false">Message content ReceiverMessage</string>
 
 </resources>

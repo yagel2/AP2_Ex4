@@ -21,7 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ChatScreen"
+            android:exported="false" />
         <activity android:name=".Connection"/>
+        <activity android:name=".Settings" />
         <activity android:name=".Contacts"/>
     </application>
 
