@@ -11,59 +11,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/background" />
 
-    <EditText
-        android:id="@+id/editTextTextUsername"
+    <LinearLayout
+        android:id="@+id/centerContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="250dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="15dp"
-        android:background="@color/blueInput"
-        android:ems="10"
-        android:hint="@string/username"
-        android:inputType="textPersonName"
-        android:padding="11dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/editTextTextPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="100dp"
-        android:background="@color/blueInput"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:padding="11dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextUsername" />
+        <EditText
+            android:id="@+id/editTextTextUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blueInput"
+            android:ems="10"
+            android:hint="@string/username"
+            android:inputType="textPersonName"
+            android:padding="11dp" />
 
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/connectButton"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/buttonToNextPage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        <EditText
+            android:id="@+id/editTextTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blueInput"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:padding="11dp" />
+
+        <Button
+            android:id="@+id/connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connectButton"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/buttonToNextPage" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
