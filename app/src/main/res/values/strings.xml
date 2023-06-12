@@ -22,7 +22,8 @@
     <string name="Send">Send</string>
     <string name="SenderMessage" translatable="false">Message content SenderMessage</string>
     <string name="ReceiverMessage" translatable="false">Message content ReceiverMessage</string>
-    <string name="contact">contact display name</string>
+    <string name="contact">contact</string>
     <string name="tempName">u</string>
+    <string name="hour">00:00</string>
 
 </resources>
