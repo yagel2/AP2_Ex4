@@ -17,8 +17,8 @@
         android:id="@+id/centerContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,8 @@
             android:ems="10"
             android:hint="@string/username"
             android:inputType="textPersonName"
-            android:padding="11dp" />
+            android:padding="11dp"
+            android:layout_marginBottom="10dp"/>
 
         <EditText
             android:id="@+id/editTextTextPassword"
@@ -43,7 +44,8 @@
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:padding="11dp" />
+            android:padding="11dp"
+            android:layout_marginBottom="10dp"/>
 
         <Button
             android:id="@+id/connect"
@@ -52,7 +54,19 @@
             android:text="@string/connectButton"
             android:layout_gravity="center"
             android:textColor="@color/white"
-            app:backgroundTint="@color/buttonToNextPage" />
+            app:backgroundTint="@color/buttonToNextPage"
+            android:layout_marginBottom="50dp"/>
+
+        <TextView
+            android:id="@+id/register_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/register_link"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:autoLink="web"
+            android:linksClickable="true" />
 
     </LinearLayout>
 

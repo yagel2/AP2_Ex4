@@ -1,25 +1,28 @@
 package com.example.ap2_ex4;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
-
+import android.widget.Button;
+import android.text.TextUtils;
+import android.content.Intent;
+import android.widget.EditText;
+import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Connection extends AppCompatActivity {
+    private String currentLanguage;
     private EditText usernameInput;
     private EditText passwordInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        currentLanguage = LocaleHelper.getSelectedLanguage(this);
+        LocaleHelper.setLocale(this, currentLanguage);
+
         setContentView(R.layout.connection);
 
         usernameInput = findViewById(R.id.editTextTextUsername);
@@ -35,6 +38,22 @@ public class Connection extends AppCompatActivity {
                 }
             }
         });
+
+        TextView registerLink = findViewById(R.id.register_link);
+        registerLink.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(Connection.this, Registration.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!currentLanguage.equals(LocaleHelper.getSelectedLanguage(this))) {
+            recreate();
+        }
     }
 
     private boolean validateInputs() {
