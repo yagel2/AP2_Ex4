@@ -77,6 +77,11 @@
             <include layout="@layout/name_item" />
             <include layout="@layout/name_item" />
             <include layout="@layout/name_item" />
+            <include layout="@layout/name_item" />
+            <include layout="@layout/name_item" />
+            <include layout="@layout/name_item" />
+            <include layout="@layout/name_item" />
+            <include layout="@layout/name_item" />
         </LinearLayout>
     </ScrollView>
 
