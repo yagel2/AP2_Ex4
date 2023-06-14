@@ -7,6 +7,9 @@
     <string name="select_image">בחר תמונה</string>
     <string name="registerButton">הירשם</string>
     <string name="connectButton">התחבר</string>
+    <string name="register_link">לא נרשמת? לחץ כאן</string>
+    <string name="AlreadyRegistered">נרשמת כבר? לחץ כאן</string>
+
 
     <string name="Settings">הגדרות</string>
     <string name="Save">שמור</string>
@@ -21,4 +24,5 @@
     <string name="Send">שלח</string>
     <string name="contact">איש קשר</string>
     <string name="tempName">שם</string>
+
 </resources>

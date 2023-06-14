@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Chat App</string>
 
+    <!--  connection + registration -->
     <string name="password">Password…</string>
     <string name="username">Username…</string>
     <string name="connectButton">Connect</string>
@@ -8,7 +9,10 @@
     <string name="displayName">Display name…</string>
     <string name="select_image">Select image</string>
     <string name="confirmPassword">Confirm password…</string>
+    <string name="register_link">Not registered? Click here</string>
+    <string name="AlreadyRegistered">Already registered? Click here</string>
 
+    <!--  settings -->
     <string name="Save">Save</string>
     <string name="dayMode">Day</string>
     <string name="Hebrew">Hebrew</string>
@@ -17,13 +21,17 @@
     <string name="Settings">Settings</string>
     <string name="Theme">Change Theme</string>
     <string name="changeDisplayName">Change display name</string>
+
+    <!--  chat screen -->
     <string name="UsernameHeading">Username</string>
     <string name="MessageBox">Type your message…</string>
     <string name="Send">Send</string>
     <string name="SenderMessage" translatable="false">Message content SenderMessage</string>
     <string name="ReceiverMessage" translatable="false">Message content ReceiverMessage</string>
+
+    <!--  contacts screen -->
     <string name="contact">contact</string>
     <string name="tempName">u</string>
-    <string name="hour">00:00</string>
+    <string name="hour" translatable="false">00:00</string>
 
 </resources>

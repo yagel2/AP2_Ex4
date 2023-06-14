@@ -1,17 +1,25 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentStart="true"
-    android:layout_marginBottom="10dp"
-    android:background="@android:color/darker_gray">
+    android:layout_marginBottom="5dp"
+    android:layout_marginStart="5dp"
+    android:background="@android:color/darker_gray"
+    android:orientation="vertical"
+    android:textColor="@android:color/black">
 
     <TextView
         android:id="@+id/textMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="@string/ReceiverMessage"
-        android:textColor="@android:color/black"
-        android:layout_gravity="start|center"/>
+        android:layout_gravity="start|center"
+        android:text="@string/ReceiverMessage" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center"
+        android:text="@string/hour" />
+
+</LinearLayout>

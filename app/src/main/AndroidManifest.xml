@@ -12,21 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AP2_Ex4"
         tools:targetApi="31">
-    <activity
-            android:name=".Registration"
+        <activity
+            android:name=".Connection"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ChatScreen"
-            android:exported="false" />
-        <activity android:name=".Connection"/>
+        <activity android:name=".Registration" />
+        <activity android:name=".ChatScreen" />
         <activity android:name=".Settings" />
-        <activity android:name=".Contacts"/>
+        <activity android:name=".Contacts" />
     </application>
 
 </manifest>
