@@ -1,5 +1,7 @@
 package com.example.ap2_ex4;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.os.Bundle;
 import android.content.Intent;
@@ -11,16 +13,30 @@ import android.widget.ImageButton;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.ap2_ex4.enteties.SingleContactInList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class Contacts extends AppCompatActivity {
     private LinearLayout namesContainer;
 
     private String currentLanguage;
+    private RecyclerView namesRecyclerView;
+    private NamesAdapter namesAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.contacts);
+
+        namesRecyclerView = findViewById(R.id.names_scroll_view);  // Replace with your RecyclerView's ID
+        namesAdapter = new NamesAdapter(new ArrayList<SingleContactInList>());
+
+        namesRecyclerView.setAdapter(namesAdapter);
+
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);
         setContentView(R.layout.contacts);
@@ -61,13 +77,13 @@ public class Contacts extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void addNameToList(String name) {
-        View nameItemView = LayoutInflater.from(this).inflate(
-                R.layout.name_item, namesContainer, false);
-        TextView textView = nameItemView.findViewById(R.id.name_contact);
-        textView.setText(name);
-        namesContainer.addView(nameItemView);
+        SingleContactInList newContact = new SingleContactInList(0, name, "", R.drawable.person_circle);
+        namesAdapter.getPosts().add(newContact);
+        namesAdapter.notifyDataSetChanged();
     }
+
 
     @Override
     protected void onResume() {

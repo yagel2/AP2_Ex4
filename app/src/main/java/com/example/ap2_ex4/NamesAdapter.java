@@ -4,15 +4,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ap2_ex4.enteties.SingleContactInList;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class NamesAdapter extends RecyclerView.Adapter<NamesAdapter.ViewHolder> {
-    private ArrayList<String> namesList;
+    private List<SingleContactInList> posts;
 
-    public NamesAdapter(ArrayList<String> namesList) {
-        this.namesList = namesList;
+    public NamesAdapter(ArrayList<SingleContactInList> namesList) {
+        this.posts = namesList;
     }
 
     @Override
@@ -23,20 +27,37 @@ public class NamesAdapter extends RecyclerView.Adapter<NamesAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.nameTextView.setText(namesList.get(position));
+        if (posts!=null) {
+            final SingleContactInList current = posts.get(position);
+            holder.tvAuthor.setText(current.getAuthor());
+            holder.tvContent.setText(current.getContent());
+            holder.ivPic.setImageResource(current.getPic());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return namesList.size();
+        if (posts!=null) {
+            return posts.size();
+        }
+        return 0;
+    }
+    public List<SingleContactInList> getPosts() {
+        return posts;
     }
 
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView nameTextView;
+        public TextView tvAuthor;
+        public TextView tvContent;
+        public ImageView ivPic;
 
         public ViewHolder(View v) {
             super(v);
-            nameTextView = v.findViewById(R.id.name);
+            tvAuthor = v.findViewById(R.id.tvAuthor);
+            tvContent = v.findViewById(R.id.tvContent);
+            ivPic = v.findViewById(R.id.ivPic);
         }
     }
+
 }

@@ -11,7 +11,7 @@
     tools:layout_editor_absoluteX="0dp">
 
     <ImageView
-        android:id="@+id/photo"
+        android:id="@+id/ivPic"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
@@ -23,25 +23,22 @@
         android:src="@drawable/person_circle" />
 
     <TextView
-        android:id="@+id/name_contact"
+        android:id="@+id/tvAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
+        android:layout_toEndOf="@id/ivPic"
         android:text="@string/UsernameHeading"
         android:textColor="@color/white"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/hour"
+        android:id="@+id/tvContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="9dp"
-        android:importantForAccessibility="no"
-        android:text="@string/hour"
+        android:layout_below="@id/tvAuthor"
+        android:layout_toEndOf="@id/tvAuthor"
         android:textColor="@color/white"
         android:textSize="20sp" />
 
 </RelativeLayout>
+
