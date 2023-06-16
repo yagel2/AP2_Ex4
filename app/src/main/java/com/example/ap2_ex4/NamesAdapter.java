@@ -9,14 +9,15 @@ import android.widget.TextView;
 
 import com.example.ap2_ex4.enteties.SingleContactInList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NamesAdapter extends RecyclerView.Adapter<NamesAdapter.ViewHolder> {
     private List<SingleContactInList> posts;
+    private final OnItemClickListener listener;
 
-    public NamesAdapter(ArrayList<SingleContactInList> namesList) {
+    public NamesAdapter(List<SingleContactInList> namesList, OnItemClickListener listener) {
         this.posts = namesList;
+        this.listener = listener;
     }
 
     @Override
@@ -29,9 +30,7 @@ public class NamesAdapter extends RecyclerView.Adapter<NamesAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (posts!=null) {
             final SingleContactInList current = posts.get(position);
-            holder.tvAuthor.setText(current.getAuthor());
-            holder.tvContent.setText(current.getContent());
-            holder.ivPic.setImageResource(current.getPic());
+            holder.bind(current, listener);
         }
     }
 
@@ -42,10 +41,11 @@ public class NamesAdapter extends RecyclerView.Adapter<NamesAdapter.ViewHolder> 
         }
         return 0;
     }
-    public List<SingleContactInList> getPosts() {
-        return posts;
-    }
 
+    public void addItem(SingleContactInList newContact) {
+        posts.add(newContact);
+        notifyDataSetChanged();
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvAuthor;
@@ -58,6 +58,16 @@ public class NamesAdapter extends RecyclerView.Adapter<NamesAdapter.ViewHolder> 
             tvContent = v.findViewById(R.id.tvContent);
             ivPic = v.findViewById(R.id.ivPic);
         }
+
+        public void bind(final SingleContactInList item, final OnItemClickListener listener) {
+            tvAuthor.setText(item.getAuthor());   // Assuming getUsername() gets the username in your SingleContactInList class
+            tvContent.setText(item.getContent());    // Assuming getContent() gets the content in your SingleContactInList class
+            itemView.setOnClickListener(v -> listener.onItemClick(item));
+        }
+
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(SingleContactInList item);
+    }
 }
