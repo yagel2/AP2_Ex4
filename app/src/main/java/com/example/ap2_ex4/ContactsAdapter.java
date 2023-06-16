@@ -11,17 +11,17 @@ import com.example.ap2_ex4.enteties.SingleContactInList;
 
 import java.util.List;
 
-public class NamesAdapter extends RecyclerView.Adapter<NamesAdapter.ViewHolder> {
+public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
     private List<SingleContactInList> posts;
     private final OnItemClickListener listener;
 
-    public NamesAdapter(List<SingleContactInList> namesList, OnItemClickListener listener) {
+    public ContactsAdapter(List<SingleContactInList> namesList, OnItemClickListener listener) {
         this.posts = namesList;
         this.listener = listener;
     }
 
     @Override
-    public NamesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ContactsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.name_item, parent, false);
         return new ViewHolder(v);
     }
@@ -60,8 +60,8 @@ public class NamesAdapter extends RecyclerView.Adapter<NamesAdapter.ViewHolder> 
         }
 
         public void bind(final SingleContactInList item, final OnItemClickListener listener) {
-            tvAuthor.setText(item.getAuthor());   // Assuming getUsername() gets the username in your SingleContactInList class
-            tvContent.setText(item.getContent());    // Assuming getContent() gets the content in your SingleContactInList class
+            tvAuthor.setText(item.getAuthor());
+            tvContent.setText(item.getContent());
             itemView.setOnClickListener(v -> listener.onItemClick(item));
         }
 

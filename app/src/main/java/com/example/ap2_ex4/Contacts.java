@@ -3,7 +3,6 @@ package com.example.ap2_ex4;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
-import android.view.View;
 import android.os.Bundle;
 import android.content.Intent;
 import android.widget.EditText;
@@ -14,10 +13,10 @@ import com.example.ap2_ex4.enteties.SingleContactInList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
-public class Contacts extends AppCompatActivity implements NamesAdapter.OnItemClickListener {
+public class Contacts extends AppCompatActivity implements ContactsAdapter.OnItemClickListener {
     private String currentLanguage;
     private RecyclerView namesRecyclerView;
-    private NamesAdapter namesAdapter;
+    private ContactsAdapter contactsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +25,8 @@ public class Contacts extends AppCompatActivity implements NamesAdapter.OnItemCl
 
         namesRecyclerView = findViewById(R.id.names_recycler_view);
         namesRecyclerView.setLayoutManager(new LinearLayoutManager(this)); // set LayoutManager here
-        namesAdapter = new NamesAdapter(new ArrayList<>(), this);
-        namesRecyclerView.setAdapter(namesAdapter);
+        contactsAdapter = new ContactsAdapter(new ArrayList<>(), this);
+        namesRecyclerView.setAdapter(contactsAdapter);
 
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);
@@ -58,7 +57,7 @@ public class Contacts extends AppCompatActivity implements NamesAdapter.OnItemCl
     @SuppressLint("NotifyDataSetChanged")
     private void addNameToList(String name) {
         SingleContactInList newContact = new SingleContactInList(0, name, "", R.drawable.person_circle);
-        namesAdapter.addItem(newContact);
+        contactsAdapter.addItem(newContact);
     }
 
     @Override
