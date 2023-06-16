@@ -12,11 +12,11 @@ import com.example.ap2_ex4.enteties.SingleContactInList;
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
-    private List<SingleContactInList> posts;
+    private List<SingleContactInList> contacts;
     private final OnItemClickListener listener;
 
     public ContactsAdapter(List<SingleContactInList> namesList, OnItemClickListener listener) {
-        this.posts = namesList;
+        this.contacts = namesList;
         this.listener = listener;
     }
 
@@ -28,22 +28,22 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (posts!=null) {
-            final SingleContactInList current = posts.get(position);
+        if (contacts!=null) {
+            final SingleContactInList current = contacts.get(position);
             holder.bind(current, listener);
         }
     }
 
     @Override
     public int getItemCount() {
-        if (posts!=null) {
-            return posts.size();
+        if (contacts!=null) {
+            return contacts.size();
         }
         return 0;
     }
 
     public void addItem(SingleContactInList newContact) {
-        posts.add(newContact);
+        contacts.add(newContact);
         notifyDataSetChanged();
     }
 

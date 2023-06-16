@@ -73,15 +73,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/message_sender" />
+<!--            <include layout="@layout/message_sender" />-->
 
-            <include layout="@layout/message_receiver" />
+<!--            <include layout="@layout/message_receiver" />-->
 
-            <include layout="@layout/message_sender" />
+<!--            <include layout="@layout/message_sender" />-->
 
-            <include layout="@layout/message_receiver" />
+<!--            <include layout="@layout/message_receiver" />-->
 
-            <include layout="@layout/message_sender" />
+<!--            <include layout="@layout/message_sender" />-->
 
         </LinearLayout>
     </ScrollView>
