@@ -25,7 +25,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.displayName = displayName;
-        this.profilePic = "change when we fix the picture";
+        this.profilePic = String.valueOf(R.drawable.person_circle);
     }
 
     public String getPassword() {
