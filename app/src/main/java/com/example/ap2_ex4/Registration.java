@@ -1,5 +1,5 @@
 package com.example.ap2_ex4;
-
+import com.example.ap2_ex4.api.UserAPI;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -49,6 +49,9 @@ public class Registration extends AppCompatActivity {
             public void onClick(View v) {
                 if (validateInputs()) {
                     Intent intent = new Intent(Registration.this, Connection.class);
+                    User user = new User(usernameInput.getText().toString(), passwordInput.getText().toString(), displayNameInput.getText().toString());
+                    UserAPI userAPI = new UserAPI();
+                    userAPI.registerUser(user);
                     startActivity(intent);
                 }
             }
@@ -112,7 +115,7 @@ public class Registration extends AppCompatActivity {
 
         if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            // Do something with the selected image Uri here
+            // Do something with the selected image here
         }
     }
 }
