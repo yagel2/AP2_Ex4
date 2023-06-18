@@ -52,7 +52,10 @@ public class Registration extends AppCompatActivity {
                     User user = new User(usernameInput.getText().toString(), passwordInput.getText().toString(), displayNameInput.getText().toString());
                     UserAPI userAPI = new UserAPI();
                     userAPI.registerUser(user);
-                    startActivity(intent);
+                    userAPI.registerUser(user);
+                    if (userAPI.reqOk) {
+                        startActivity(intent);
+                    }
                 }
             }
         });
