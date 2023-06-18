@@ -14,7 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserAPI {
     private Retrofit retrofit;
     private WebServicesApi webServiceAPI;
-
     public UserAPI() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
@@ -22,7 +21,6 @@ public class UserAPI {
                 .build();
         webServiceAPI = retrofit.create(WebServicesApi.class);
     }
-
     public void registerUser(User user) {
         Gson gson = new Gson();
         String jsonBody = gson.toJson(user);
@@ -32,10 +30,8 @@ public class UserAPI {
             @Override
             public void onResponse( Call<String> call,  Response<String> response) {
                 if (response.isSuccessful()) {
-//                    String registeredUser = response.body();
-                    System.out.println(response.body());
-                } else {
-                    System.out.println(2);                }
+                    String registeredUser = response.body();
+                }
             }
             @Override
             public void onFailure(Call<String> call, Throwable t) {

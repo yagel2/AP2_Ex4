@@ -8,7 +8,7 @@ public class User {
     private String username;
     private String password;
     private String displayName;
-    private String image;
+    private String profilePic;
 
     public String getUsername() {
         return username;
@@ -25,7 +25,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.displayName = displayName;
-        this.image = "change when we fix the picture";
+        this.profilePic = "change when we fix the picture";
     }
 
     public String getPassword() {
@@ -45,10 +45,10 @@ public class User {
     }
 
     public String getImage() {
-        return image;
+        return profilePic;
     }
 
     public void setImage(String image) {
-        this.image = image;
+        this.profilePic = image;
     }
 }
