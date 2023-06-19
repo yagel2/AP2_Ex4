@@ -62,30 +62,6 @@ public class UserAPI {
         });
     }
 
-    //    public void registerUser(User user) {
-//    Gson gson = new Gson();
-//    String jsonBody = gson.toJson(user);
-//    RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody);
-//    Call<String> call = this.webServiceAPI.registerUser(requestBody);
-//    call.enqueue(new Callback<String>() {
-//        @Override
-//        public void onResponse( Call<String> call,  Response<String> response) {
-//            if (response.isSuccessful()) {
-//            } else {
-//                if (response.code() == 409) {
-//                    Toast.makeText(MyApplication.context, "Username already exists", Toast.LENGTH_LONG).show();
-//                } else {
-//                    Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        }
-//
-//        @Override
-//        public void onFailure(Call<String> call, Throwable t) {
-//            t.printStackTrace();
-//        }
-//    });
-//}
  public void getUser(String username) {
         Call<User> call = this.webServiceAPI.getUser("Bearer " + token, username);
         call.enqueue(new Callback<User>() {
@@ -103,7 +79,7 @@ public class UserAPI {
             }
         });
     }
-    public void loginUser(ConnectionDetails user) {
+    public void loginUser(ConnectionDetails user,  CallbackConnection callback) {
         Gson gson = new Gson();
         String jsonBody = gson.toJson(user);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody);
@@ -114,16 +90,22 @@ public class UserAPI {
                 if (response.isSuccessful()) {
                     setToken(response.body());
                     getUser(user.getUsername());
-                } else if (response.code() == 404) {
+                    callback.onResponse(true);
+                }else {
+                    if (response.code() == 404) {
                     Toast.makeText(MyApplication.context, "Username or password doesn't match", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
+                }
+                    callback.onResponse(false);
+
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 t.printStackTrace();
+                callback.onResponse(false);
             }
         });
 
