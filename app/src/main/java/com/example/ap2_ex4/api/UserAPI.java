@@ -3,6 +3,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.example.ap2_ex4.Connection;
+import com.example.ap2_ex4.ConnectionDetails;
 import com.example.ap2_ex4.MyApplication;
 import com.example.ap2_ex4.R;
 import com.example.ap2_ex4.Registration;
@@ -25,6 +26,12 @@ public class UserAPI {
     private Retrofit retrofit;
     private WebServicesApi webServiceAPI;
     private String token;
+
+    public User getConnectedUser() {
+        return connectedUser;
+    }
+
+    private User connectedUser;
 
     private UserAPI() {
         retrofit = new Retrofit.Builder()
@@ -64,67 +71,24 @@ public class UserAPI {
         }
     });
 }
-
-//    public void registerUser(User user) {
-//        Gson gson = new Gson();
-//        String jsonBody = gson.toJson(user);
-//        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody);
-//        Call<String> call = this.webServiceAPI.registerUser(requestBody);
-//
-//        CountDownLatch latch = new CountDownLatch(1); // Create a CountDownLatch with an initial count of 1
-//
-//        call.enqueue(new Callback<String>() {
-//            @Override
-//            public void onResponse(Call<String> call, Response<String> response) {
-//                // Process the response
-//                if (response.isSuccessful()) {
-//                    latch.countDown(); // Decrease the latch count by 1
-//                } else {
-//                    if (response.code() == 409) {
-//                        Toast.makeText(MyApplication.context, "Username already exists", Toast.LENGTH_LONG).show();
-//                    } else {
-//                        Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<String> call, Throwable t) {
-//                t.printStackTrace();
-//                latch.countDown(); // Decrease the latch count by 1
-//            }
-//        });
-//
-//        try {
-//            latch.await(); // Wait for the latch count to reach zero
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//            Toast.makeText(MyApplication.context, "latch A server error occurred, please try again", Toast.LENGTH_LONG).show();
-//        }
-//    }
-    public void getUser(String username) {
-//        isRequestSuccessful = true;
+ public void getUser(String username) {
         Call<User> call = this.webServiceAPI.getUser("Bearer " + token, username);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-//                    connectedUser = response.body();
+                    connectedUser = response.body();
                 } else {
                     Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
-//                    isRequestSuccessful = false;
                 }
             }
-
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
-
-    public void loginUser(User user) {
+    public void loginUser(ConnectionDetails user) {
         Gson gson = new Gson();
         String jsonBody = gson.toJson(user);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody);
@@ -147,6 +111,7 @@ public class UserAPI {
                 t.printStackTrace();
             }
         });
+
     }
 
     public void setToken(String newToken) {
