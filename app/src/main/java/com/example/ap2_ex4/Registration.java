@@ -50,12 +50,9 @@ public class Registration extends AppCompatActivity {
                 if (validateInputs()) {
                     Intent intent = new Intent(Registration.this, Connection.class);
                     User user = new User(usernameInput.getText().toString(), passwordInput.getText().toString(), displayNameInput.getText().toString());
-                    UserAPI userAPI = new UserAPI();
+                    UserAPI userAPI = UserAPI.getInstance();
                     userAPI.registerUser(user);
-                    userAPI.registerUser(user);
-                    if (userAPI.reqOk) {
-                        startActivity(intent);
-                    }
+                    startActivity(intent);
                 }
             }
         });

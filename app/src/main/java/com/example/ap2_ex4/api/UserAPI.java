@@ -1,8 +1,11 @@
 package com.example.ap2_ex4.api;
+import android.content.Intent;
 import android.widget.Toast;
 
+import com.example.ap2_ex4.Connection;
 import com.example.ap2_ex4.MyApplication;
 import com.example.ap2_ex4.R;
+import com.example.ap2_ex4.Registration;
 import com.example.ap2_ex4.User;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
@@ -12,36 +15,130 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 public class UserAPI {
+    private static UserAPI userAPI;
     private Retrofit retrofit;
     private WebServicesApi webServiceAPI;
-    public boolean reqOk;
-    public UserAPI() {
+    private String token;
+
+    private UserAPI() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServicesApi.class);
     }
+    public static synchronized UserAPI getInstance() {
+        if (userAPI == null) {
+            userAPI = new UserAPI();
+        }
+
+        return userAPI;
+    }
     public void registerUser(User user) {
-        reqOk = false;
+    Gson gson = new Gson();
+    String jsonBody = gson.toJson(user);
+    RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody);
+    Call<String> call = this.webServiceAPI.registerUser(requestBody);
+    call.enqueue(new Callback<String>() {
+        @Override
+        public void onResponse( Call<String> call,  Response<String> response) {
+            if (response.isSuccessful()) {
+            } else {
+                if (response.code() == 409) {
+                    Toast.makeText(MyApplication.context, "Username already exists", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(Call<String> call, Throwable t) {
+            t.printStackTrace();
+        }
+    });
+}
+
+//    public void registerUser(User user) {
+//        Gson gson = new Gson();
+//        String jsonBody = gson.toJson(user);
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody);
+//        Call<String> call = this.webServiceAPI.registerUser(requestBody);
+//
+//        CountDownLatch latch = new CountDownLatch(1); // Create a CountDownLatch with an initial count of 1
+//
+//        call.enqueue(new Callback<String>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//                // Process the response
+//                if (response.isSuccessful()) {
+//                    latch.countDown(); // Decrease the latch count by 1
+//                } else {
+//                    if (response.code() == 409) {
+//                        Toast.makeText(MyApplication.context, "Username already exists", Toast.LENGTH_LONG).show();
+//                    } else {
+//                        Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<String> call, Throwable t) {
+//                t.printStackTrace();
+//                latch.countDown(); // Decrease the latch count by 1
+//            }
+//        });
+//
+//        try {
+//            latch.await(); // Wait for the latch count to reach zero
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//            Toast.makeText(MyApplication.context, "latch A server error occurred, please try again", Toast.LENGTH_LONG).show();
+//        }
+//    }
+    public void getUser(String username) {
+//        isRequestSuccessful = true;
+        Call<User> call = this.webServiceAPI.getUser("Bearer " + token, username);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+//                    connectedUser = response.body();
+                } else {
+                    Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
+//                    isRequestSuccessful = false;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void loginUser(User user) {
         Gson gson = new Gson();
         String jsonBody = gson.toJson(user);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody);
-        Call<String> call = this.webServiceAPI.registerUser(requestBody);
+        Call<String> call = this.webServiceAPI.loginUser(requestBody);
         call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse( Call<String> call,  Response<String> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    reqOk = true;
-                }
-                else if (response.code() == 409) {
-                    Toast.makeText(MyApplication.context, "Username already exists", Toast.LENGTH_LONG).show();
-                    reqOk = false;
+                    setToken(response.body());
+                    getUser(user.getUsername());
+                } else if (response.code() == 404) {
+                    Toast.makeText(MyApplication.context, "Username or password doesn't match", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
-                    reqOk = false;
                 }
             }
 
@@ -52,61 +149,8 @@ public class UserAPI {
         });
     }
 
+    public void setToken(String newToken) {
+        this.token = newToken;
+    }
+
 }
-//package com.example.ap2_ex4.api;
-//        import android.widget.Toast;
-//
-//        import com.example.ap2_ex4.MyApplication;
-//        import com.example.ap2_ex4.R;
-//        import com.example.ap2_ex4.User;
-//        import com.google.gson.Gson;
-//        import okhttp3.MediaType;
-//        import okhttp3.RequestBody;
-//        import retrofit2.Call;
-//        import retrofit2.Callback;
-//        import retrofit2.Response;
-//        import retrofit2.Retrofit;
-//        import retrofit2.converter.gson.GsonConverterFactory;
-//
-//public class UserAPI {
-//    private Retrofit retrofit;
-//    private WebServicesApi webServiceAPI;
-//    private boolean requestSuccessful;
-//    public UserAPI() {
-//        retrofit = new Retrofit.Builder()
-//                .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        webServiceAPI = retrofit.create(WebServicesApi.class);
-//    }
-//    public boolean registerUser(User user) {
-//        Gson gson = new Gson();
-//        String jsonBody = gson.toJson(user);
-//        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody);
-//        Call<String> call = this.webServiceAPI.registerUser(requestBody);
-//        call.enqueue(new Callback<String>() {
-//            @Override
-//            public void onResponse( Call<String> call,  Response<String> response) {
-//                if (response.isSuccessful()) {
-//                    String registeredUser = response.body();
-//                    requestSuccessful = true;
-//                } else if (response.code() == 409) {
-//                    Toast.makeText(MyApplication.context, "Username already exists", Toast.LENGTH_LONG).show();
-//                    requestSuccessful = false;
-//                } else {
-//                    Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
-//                    requestSuccessful = false;
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<String> call, Throwable t) {
-//                t.printStackTrace();
-////                Toast.makeText(MyApplication.context, "A network error occurred, please try again", Toast.LENGTH_LONG).show();
-////                requestSuccessful = false;
-//            }
-//        });
-//        return requestSuccessful;
-//    }
-//
-//}
