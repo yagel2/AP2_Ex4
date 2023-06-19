@@ -12,6 +12,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ap2_ex4.api.CallbackConnection;
+import com.example.ap2_ex4.api.CallbackRegistration;
+import com.example.ap2_ex4.api.UserAPI;
+
 public class Connection extends AppCompatActivity {
     private String currentLanguage;
     private EditText usernameInput;
@@ -33,8 +37,17 @@ public class Connection extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateInputs()) {
-                    Intent intent = new Intent(Connection.this, Contacts.class);
-                    startActivity(intent);
+                    ConnectionDetails connectionDetails = new ConnectionDetails(usernameInput.getText().toString(), passwordInput.getText().toString());
+                    UserAPI userAPI = UserAPI.getInstance();
+                    userAPI.loginUser(connectionDetails, new CallbackConnection() {
+                        @Override
+                        public void onResponse(boolean success) {
+                            if(success){
+                                Intent intent = new Intent(Connection.this, Contacts.class);
+                                startActivity(intent);
+                            }
+                        }
+                    });
                 }
             }
         });
