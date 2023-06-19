@@ -12,6 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ap2_ex4.contacts.Contacts;
+
 public class Connection extends AppCompatActivity {
     private String currentLanguage;
     private EditText usernameInput;

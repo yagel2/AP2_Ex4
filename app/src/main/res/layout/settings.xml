@@ -66,12 +66,12 @@
 
         <!-- Display name -->
         <EditText
-            android:id="@+id/editTextDisplayName"
+            android:id="@+id/editServer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
             android:autofillHints="display name"
-            android:hint="@string/changeDisplayName"
+            android:hint="@string/switchServer"
             android:inputType="text"
             android:minHeight="48dp"
             android:padding="10dp"

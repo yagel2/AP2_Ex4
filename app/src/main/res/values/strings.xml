@@ -20,7 +20,7 @@
     <string name="nightMode">Night</string>
     <string name="Settings">Settings</string>
     <string name="Theme">Change Theme</string>
-    <string name="changeDisplayName">Change display name</string>
+    <string name="switchServer">Switch server</string>
 
     <!--  chat screen -->
     <string name="UsernameHeading">Username</string>
