@@ -8,13 +8,16 @@ import android.text.TextUtils;
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.example.ap2_ex4.api.UserAPI;
+import com.example.ap2_ex4.contacts.Contacts;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ap2_ex4.api.CallbackConnection;
-import com.example.ap2_ex4.api.CallbackRegistration;
-import com.example.ap2_ex4.api.UserAPI;
 
 public class Connection extends AppCompatActivity {
     private String currentLanguage;
@@ -42,7 +45,7 @@ public class Connection extends AppCompatActivity {
                     userAPI.loginUser(connectionDetails, new CallbackConnection() {
                         @Override
                         public void onResponse(boolean success) {
-                            if(success){
+                            if (success) {
                                 Intent intent = new Intent(Connection.this, Contacts.class);
                                 startActivity(intent);
                             }
