@@ -11,12 +11,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface WebServicesApi {
-// @GET
-// Call<List<SingleContactInList>> getContacts();
-// @POST
-//Call<Void> createContact(@Body SingleContactInList post);
-// @DELETE
-//Call<Void> deleteContact(@Path("id") int id);
 @POST("Users/")
 Call<Void> registerUser(@Body RequestBody user);
 @POST("Tokens/")
