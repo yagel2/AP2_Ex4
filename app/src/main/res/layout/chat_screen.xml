@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blueInput"
-    tools:context=".ChatScreen">
+    tools:context=".messages.Messages">
 
-    <!-- Profile Section -->
+    <!-- Profile Heading -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profileSection"
         android:layout_width="match_parent"
@@ -41,50 +41,30 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/buttonDelete"
+            android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
             android:background="@android:color/transparent"
             android:importantForAccessibility="no"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            android:src="@drawable/delete_icon"
+            android:minWidth="58dp"
+            android:minHeight="58dp"
+            android:src="@drawable/back_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ImageContrastCheck" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
-        android:id="@+id/scrollViewMessages"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messages_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_above="@id/layoutMessageInput"
         android:layout_below="@id/profileSection"
         android:background="@drawable/background"
         app:layout_constraintBottom_toTopOf="@id/layoutMessageInput"
-        app:layout_constraintTop_toBottomOf="@id/profileSection">
-
-        <LinearLayout
-            android:id="@+id/layoutMessageList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-<!--            <include layout="@layout/message_sender" />-->
-
-<!--            <include layout="@layout/message_receiver" />-->
-
-<!--            <include layout="@layout/message_sender" />-->
-
-<!--            <include layout="@layout/message_receiver" />-->
-
-<!--            <include layout="@layout/message_sender" />-->
-
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@id/profileSection" />
 
     <!-- Message Input -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -119,9 +99,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.15"
-            tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck,ImageContrastCheck" />
-
+            tools:ignore="ContentDescription,ImageContrastCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

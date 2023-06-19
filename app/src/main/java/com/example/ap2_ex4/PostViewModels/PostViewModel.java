@@ -3,7 +3,7 @@
 //import androidx.lifecycle.LiveData;
 //import androidx.lifecycle.ViewModel;
 //
-//import com.example.ap2_ex4.enteties.SingleContactInList;
+//import com.example.ap2_ex4.contacts.SingleContactInList;
 //
 //import java.util.List;
 //

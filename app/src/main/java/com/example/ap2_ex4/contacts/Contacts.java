@@ -1,35 +1,39 @@
-package com.example.ap2_ex4;
+package com.example.ap2_ex4.contacts;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.annotation.SuppressLint;
 import android.os.Bundle;
+import java.util.ArrayList;
+import com.example.ap2_ex4.R;
 import android.content.Intent;
 import android.widget.EditText;
 import android.app.AlertDialog;
 import android.widget.ImageButton;
+import com.example.ap2_ex4.Settings;
+import android.annotation.SuppressLint;
+import com.example.ap2_ex4.LocaleHelper;
+import com.example.ap2_ex4.messages.Messages;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.ap2_ex4.enteties.SingleContactInList;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import java.util.ArrayList;
 
 public class Contacts extends AppCompatActivity implements ContactsAdapter.OnItemClickListener {
+    private Contact currentContact;
     private String currentLanguage;
+
     private RecyclerView namesRecyclerView;
     private ContactsAdapter contactsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        currentLanguage = LocaleHelper.getSelectedLanguage(this);
+        LocaleHelper.setLocale(this, currentLanguage);
         setContentView(R.layout.contacts);
 
         namesRecyclerView = findViewById(R.id.names_recycler_view);
         namesRecyclerView.setLayoutManager(new LinearLayoutManager(this)); // set LayoutManager here
         contactsAdapter = new ContactsAdapter(new ArrayList<>(), this);
         namesRecyclerView.setAdapter(contactsAdapter);
-
-        currentLanguage = LocaleHelper.getSelectedLanguage(this);
-        LocaleHelper.setLocale(this, currentLanguage);
 
         ImageButton settingsButton = findViewById(R.id.right_icon);
         settingsButton.setOnClickListener(v -> {
@@ -40,7 +44,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         FloatingActionButton addButton = findViewById(R.id.add_button);
         addButton.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(Contacts.this);
-            builder.setTitle("Add a name");
+            builder.setTitle("Add a new contact");
             final EditText input = new EditText(Contacts.this);
             builder.setView(input);
             builder.setPositiveButton("OK", (dialog, which) -> {
@@ -56,13 +60,14 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
 
     @SuppressLint("NotifyDataSetChanged")
     private void addNameToList(String name) {
-        SingleContactInList newContact = new SingleContactInList(0, name, "", R.drawable.person_circle);
+        Contact newContact = new Contact(0, name, "00:00", R.drawable.person_circle);
         contactsAdapter.addItem(newContact);
     }
 
     @Override
-    public void onItemClick(SingleContactInList item) {
-        Intent intent = new Intent(Contacts.this, ChatScreen.class);
+    public void onItemClick(Contact item) {
+        currentContact = item;
+        Intent intent = new Intent(Contacts.this, Messages.class);
         startActivity(intent);
     }
 

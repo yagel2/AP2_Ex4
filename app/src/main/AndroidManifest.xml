@@ -24,9 +24,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".Registration" />
-        <activity android:name=".ChatScreen" />
+        <activity android:name=".messages.Messages" />
         <activity android:name=".Settings" />
-        <activity android:name=".Contacts" />
+        <activity android:name=".contacts.Contacts" />
     </application>
 
 </manifest>
