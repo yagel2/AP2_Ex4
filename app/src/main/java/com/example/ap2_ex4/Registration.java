@@ -1,4 +1,5 @@
 package com.example.ap2_ex4;
+import com.example.ap2_ex4.api.CallbackRegistration;
 import com.example.ap2_ex4.api.UserAPI;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,12 +49,25 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateInputs()) {
-                    Intent intent = new Intent(Registration.this, Connection.class);
                     User user = new User(usernameInput.getText().toString(), passwordInput.getText().toString(), displayNameInput.getText().toString());
                     UserAPI userAPI = UserAPI.getInstance();
-                    userAPI.registerUser(user);
-                    startActivity(intent);
+                    userAPI.registerUser(user, new CallbackRegistration() {
+                        @Override
+                        public void onResponse(boolean success) {
+                            if(success){
+                                Intent intent = new Intent(Registration.this, Connection.class);
+                                startActivity(intent);
+                            }
+                        }
+                    });
                 }
+//                if (validateInputs()) {
+//                    Intent intent = new Intent(Registration.this, Connection.class);
+//                    User user = new User(usernameInput.getText().toString(), passwordInput.getText().toString(), displayNameInput.getText().toString());
+//                    UserAPI userAPI = UserAPI.getInstance();
+//                    userAPI.registerUser(user);
+//                    startActivity(intent);
+//                }
             }
         });
 

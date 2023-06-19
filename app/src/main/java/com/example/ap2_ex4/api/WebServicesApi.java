@@ -18,7 +18,7 @@ public interface WebServicesApi {
 // @DELETE
 //Call<Void> deleteContact(@Path("id") int id);
 @POST("Users/")
-Call<String> registerUser(@Body RequestBody user);
+Call<Void> registerUser(@Body RequestBody user);
 @POST("Tokens/")
 Call<String> loginUser(@Body RequestBody user);
 @GET("Users/{username}")
