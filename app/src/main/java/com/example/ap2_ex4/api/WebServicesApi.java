@@ -3,6 +3,8 @@ package com.example.ap2_ex4.api;
 import com.example.ap2_ex4.ConnectionDetails;
 import com.example.ap2_ex4.User;
 
+import java.util.List;
+
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,4 +20,10 @@ Call<Void> registerUser(@Body RequestBody user);
 Call<String> loginUser(@Body ConnectionDetails nameAndPassword);
 @GET("Users/{username}")
 Call<User> getUser(@Header("authorization") String authHeader, @Path("username") String username);
+@GET("Chats")
+Call <List<Chat>> getChats(@Header("authorization") String authorization, @Header("accept")String accept);
+//@GET("Chats/{id}/Messages")
+//Call <List<Massage>> getMessages(@Header("authorization") String authorization, @Header("accept")String accept, @Path("id") int id);
+//@POST("Chats/{id}/Messages")
+//    Call <NewMessageFromServer> addMessage()
 }

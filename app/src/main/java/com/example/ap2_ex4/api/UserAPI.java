@@ -6,6 +6,7 @@ import com.example.ap2_ex4.R;
 import com.example.ap2_ex4.User;
 import com.google.gson.Gson;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import okhttp3.MediaType;
@@ -20,10 +21,13 @@ public class UserAPI {
     private Retrofit retrofit;
     private WebServicesApi webServiceAPI;
     private String token;
+
     public User getConnectedUser() {
         return connectedUser;
     }
+
     private User connectedUser;
+
     private UserAPI() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
@@ -31,6 +35,7 @@ public class UserAPI {
                 .build();
         webServiceAPI = retrofit.create(WebServicesApi.class);
     }
+
     public static synchronized UserAPI getInstance() {
         if (userAPI == null) {
             userAPI = new UserAPI();
@@ -38,6 +43,7 @@ public class UserAPI {
 
         return userAPI;
     }
+
     public void registerUser(User user, CallbackRegistration callback) {
         Gson gson = new Gson();
         String jsonBody = gson.toJson(user);
@@ -57,6 +63,7 @@ public class UserAPI {
                     callback.onResponse(false);
                 }
             }
+
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 t.printStackTrace();
@@ -64,23 +71,27 @@ public class UserAPI {
         });
     }
 
- public void getUser(String username) {
+    public void getUser(String username, CallbackConnection callbackConnection) {
         Call<User> call = this.webServiceAPI.getUser("Bearer " + token, username);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     connectedUser = response.body();
+                    callbackConnection.onResponse(true);
                 } else {
                     Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
+                    callbackConnection.onResponse(false);
                 }
             }
+
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
+
     public void loginUser(ConnectionDetails user, CallbackConnection callback) {
         Gson gson = new Gson();
         String jsonBody = gson.toJson(user);
@@ -104,7 +115,28 @@ public class UserAPI {
             }
         });
     }
+
     public void setToken(String newToken) {
         this.token = newToken;
+    }
+
+    public void getChats(CallbackConnection callback) {
+        Call<List<Chat>> call = this.webServiceAPI.getChats("Bearer " + token, "application/json");
+        call.enqueue(new Callback<List<Chat>>() {
+            @Override
+            public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(true);
+                } else {
+                    Toast.makeText(MyApplication.context, "A server error occurred while getting chats", Toast.LENGTH_LONG).show();
+                    callback.onResponse(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Chat>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }
