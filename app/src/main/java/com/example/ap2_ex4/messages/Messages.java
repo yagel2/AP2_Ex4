@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import com.example.ap2_ex4.R;
 import android.content.Intent;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.ImageButton;
 import android.annotation.SuppressLint;
 import com.example.ap2_ex4.LocaleHelper;
+import com.example.ap2_ex4.contacts.Contact;
 import com.example.ap2_ex4.contacts.Contacts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,11 +27,16 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
         LocaleHelper.setLocale(this, currentLanguage);
         setContentView(R.layout.chat_screen);
 
+        Contact currentContact = Contacts.getCurrentContact();
+        TextView displayName = findViewById(R.id.textName);
         ImageButton sendButton = findViewById(R.id.buttonSend);
         ImageButton settingsButton = findViewById(R.id.backButton);
+        ImageView contactProfilePic = findViewById(R.id.imageProfile);
         RecyclerView messagesRecyclerView = findViewById(R.id.messages_recycler_view);
-        messageAdapter = new MessageAdapter(new ArrayList<>(), this);
 
+        messageAdapter = new MessageAdapter(new ArrayList<>(), this);
+        displayName.setText(currentContact.getDisplayName());
+        contactProfilePic.setImageResource(currentContact.getProfilePic());
 
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
