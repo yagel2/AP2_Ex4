@@ -1,5 +1,6 @@
 package com.example.ap2_ex4.api;
 
+import com.example.ap2_ex4.ConnectionDetails;
 import com.example.ap2_ex4.User;
 
 import okhttp3.RequestBody;
@@ -14,7 +15,7 @@ public interface WebServicesApi {
 @POST("Users/")
 Call<Void> registerUser(@Body RequestBody user);
 @POST("Tokens/")
-Call<String> loginUser(@Body RequestBody user);
+Call<String> loginUser(@Body ConnectionDetails nameAndPassword);
 @GET("Users/{username}")
 Call<User> getUser(@Header("authorization") String authHeader, @Path("username") String username);
 }
