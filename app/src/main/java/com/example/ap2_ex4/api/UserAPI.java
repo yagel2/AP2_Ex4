@@ -5,6 +5,9 @@ import com.example.ap2_ex4.MyApplication;
 import com.example.ap2_ex4.R;
 import com.example.ap2_ex4.User;
 import com.google.gson.Gson;
+
+import java.util.concurrent.CompletableFuture;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -57,7 +60,6 @@ public class UserAPI {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 t.printStackTrace();
-                callback.onResponse(false);
             }
         });
     }
@@ -79,36 +81,28 @@ public class UserAPI {
             }
         });
     }
-    public void loginUser(ConnectionDetails user,  CallbackConnection callback) {
+    public void loginUser(ConnectionDetails user, CallbackConnection callback) {
         Gson gson = new Gson();
         String jsonBody = gson.toJson(user);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody);
-        Call<String> call = this.webServiceAPI.loginUser(requestBody);
+        Call<String> call = this.webServiceAPI.loginUser(user);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     setToken(response.body());
-                    getUser(user.getUsername());
                     callback.onResponse(true);
-                }else {
-                    if (response.code() == 404) {
-                    Toast.makeText(MyApplication.context, "Username or password doesn't match", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
-                }
+                    Toast.makeText(MyApplication.context, "Username or password doesn't match", Toast.LENGTH_LONG).show();
                     callback.onResponse(false);
-
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 t.printStackTrace();
-                callback.onResponse(false);
             }
         });
-
     }
     public void setToken(String newToken) {
         this.token = newToken;
