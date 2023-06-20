@@ -2,6 +2,7 @@ package com.example.ap2_ex4.api;
 
 import com.example.ap2_ex4.ConnectionDetails;
 import com.example.ap2_ex4.User;
+import com.example.ap2_ex4.messages.Message;
 
 import java.util.List;
 
@@ -21,9 +22,9 @@ Call<String> loginUser(@Body ConnectionDetails nameAndPassword);
 @GET("Users/{username}")
 Call<User> getUser(@Header("authorization") String authHeader, @Path("username") String username);
 @GET("Chats")
-Call <List<Chat>> getChats(@Header("authorization") String authorization, @Header("accept")String accept);
-//@GET("Chats/{id}/Messages")
-//Call <List<Massage>> getMessages(@Header("authorization") String authorization, @Header("accept")String accept, @Path("id") int id);
+Call <List<Chat>> getChats(@Header("authorization") String authorization, @Header("accept")String accept); //check after yagel
+@GET("Chats/{id}/Messages")
+Call <List<Message>> getMessages(@Header("authorization") String authorization, @Header("accept")String accept, @Path("id") int id); //check after yagel
 //@POST("Chats/{id}/Messages")
 //    Call <NewMessageFromServer> addMessage()
 }

@@ -12,13 +12,11 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.example.ap2_ex4.api.CallbackResponse;
 import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.contacts.Contacts;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.ap2_ex4.api.CallbackConnection;
-
 public class Connection extends AppCompatActivity {
     private String currentLanguage;
     private EditText usernameInput;
@@ -42,7 +40,7 @@ public class Connection extends AppCompatActivity {
                 if (validateInputs()) {
                     ConnectionDetails connectionDetails = new ConnectionDetails(usernameInput.getText().toString(), passwordInput.getText().toString());
                     UserAPI userAPI = UserAPI.getInstance();
-                    userAPI.loginUser(connectionDetails, new CallbackConnection() {
+                    userAPI.loginUser(connectionDetails, new CallbackResponse() {
                         @Override
                         public void onResponse(boolean success) {
                             if (success) {

@@ -4,6 +4,7 @@ import com.example.ap2_ex4.ConnectionDetails;
 import com.example.ap2_ex4.MyApplication;
 import com.example.ap2_ex4.R;
 import com.example.ap2_ex4.User;
+import com.example.ap2_ex4.messages.Message;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class UserAPI {
         return userAPI;
     }
 
-    public void registerUser(User user, CallbackRegistration callback) {
+    public void registerUser(User user, CallbackResponse callback) {
         Gson gson = new Gson();
         String jsonBody = gson.toJson(user);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody);
@@ -71,7 +72,7 @@ public class UserAPI {
         });
     }
 
-    public void getUser(String username, CallbackConnection callbackConnection) {
+    public void getUser(String username, CallbackResponse callbackConnection) {
         Call<User> call = this.webServiceAPI.getUser("Bearer " + token, username);
         call.enqueue(new Callback<User>() {
             @Override
@@ -92,7 +93,7 @@ public class UserAPI {
         });
     }
 
-    public void loginUser(ConnectionDetails user, CallbackConnection callback) {
+    public void loginUser(ConnectionDetails user, CallbackResponse callback) {
         Gson gson = new Gson();
         String jsonBody = gson.toJson(user);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody);
@@ -120,7 +121,7 @@ public class UserAPI {
         this.token = newToken;
     }
 
-    public void getChats(CallbackConnection callback) {
+    public void getChats(CallbackResponse callback) {
         Call<List<Chat>> call = this.webServiceAPI.getChats("Bearer " + token, "application/json");
         call.enqueue(new Callback<List<Chat>>() {
             @Override
@@ -139,4 +140,25 @@ public class UserAPI {
             }
         });
     }
+
+    public void getMessages(int chatId, CallbackResponse callback) {
+        Call<List<Message>> call = this.webServiceAPI.getMessages("Bearer " + token, "application/json", chatId);
+        call.enqueue(new Callback<List<Message>>() {
+            @Override
+            public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(true);
+                } else {
+                    Toast.makeText(MyApplication.context, "A server error occurred while getting messages", Toast.LENGTH_LONG).show();
+                    callback.onResponse(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Message>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
 }
