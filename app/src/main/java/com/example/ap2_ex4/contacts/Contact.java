@@ -6,13 +6,12 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Contact {
     @PrimaryKey(autoGenerate = true)
-    private final int id;
+    private int id;
+    private String lastTime;
     private final int profilePic;
-    private final String lastTime;
     private final String displayName;
 
-    public Contact(int id, String displayName, String lastTime, int profilePic) {
-        this.id = id;
+    public Contact(String displayName, String lastTime, int profilePic) {
         this.lastTime = lastTime;
         this.profilePic = profilePic;
         this.displayName = displayName;
@@ -22,15 +21,24 @@ public class Contact {
         return id;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public int getProfilePic() {
+        return profilePic;
     }
 
     public String getLastTime() {
         return lastTime;
     }
 
-    public int getProfilePic() {
-        return profilePic;
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setLastTime(String lastTime) {
+        this.lastTime = lastTime;
     }
 }
+

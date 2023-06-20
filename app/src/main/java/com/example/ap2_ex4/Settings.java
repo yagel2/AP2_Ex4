@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.widget.Switch;
 import android.annotation.SuppressLint;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 public class Settings extends AppCompatActivity {
     @Override

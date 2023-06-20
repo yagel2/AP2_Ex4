@@ -1,6 +1,8 @@
 package com.example.ap2_ex4.contacts;
 
+import java.util.List;
 import android.os.Bundle;
+import androidx.room.Room;
 import java.util.ArrayList;
 import com.example.ap2_ex4.R;
 import android.content.Intent;
@@ -17,11 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Contacts extends AppCompatActivity implements ContactsAdapter.OnItemClickListener {
-    private Contact currentContact;
+    private ContactDB db;
+    private ContactDao contactDao;
     private String currentLanguage;
-
-    private RecyclerView namesRecyclerView;
+    private static Contact currentContact;
     private ContactsAdapter contactsAdapter;
+    private RecyclerView contactsRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +32,29 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);
         setContentView(R.layout.contacts);
+        initFields();
+        handleContacts();
+        loadContacts();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!currentLanguage.equals(LocaleHelper.getSelectedLanguage(this))) {
+            recreate();
+        }
+    }
 
-        namesRecyclerView = findViewById(R.id.names_recycler_view);
-        namesRecyclerView.setLayoutManager(new LinearLayoutManager(this)); // set LayoutManager here
-        contactsAdapter = new ContactsAdapter(new ArrayList<>(), this);
-        namesRecyclerView.setAdapter(contactsAdapter);
+    private void initFields() {
+        db = Room.databaseBuilder(getApplicationContext(),
+                ContactDB.class, "contactsDB").build();
+        contactDao = db.contactDao();
+        contactsAdapter = new ContactsAdapter(new ArrayList<>(), this, db);
+        contactsRecyclerView = findViewById(R.id.contacts_recycler_view);
+        contactsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        contactsRecyclerView.setAdapter(contactsAdapter);
+    }
 
+    private void handleContacts() {
         ImageButton settingsButton = findViewById(R.id.right_icon);
         settingsButton.setOnClickListener(v -> {
             Intent intent = new Intent(Contacts.this, Settings.class);
@@ -50,7 +70,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
             builder.setPositiveButton("OK", (dialog, which) -> {
                 String name = input.getText().toString();
                 if (!name.isEmpty()) {
-                    addNameToList(name);
+                    addContact(name);
                 }
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -59,23 +79,51 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void addNameToList(String name) {
-        Contact newContact = new Contact(0, name, "00:00", R.drawable.person_circle);
-        contactsAdapter.addItem(newContact);
+    private void loadContacts() {
+        new Thread(() -> {
+            List<Contact> contacts = contactDao.getAllContacts();
+            runOnUiThread(() -> {
+                contactsAdapter.getContacts().clear();
+                contactsAdapter.setContacts(contacts);
+                contactsAdapter.notifyDataSetChanged();
+            });
+        }).start();
+    }
+
+    public static Contact getCurrentContact() {
+        return currentContact;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void addContact(String username) {
+        Contact newContact = new Contact(username, "", R.drawable.person_circle);
+        contactsAdapter.addContact(newContact);
+        contactsAdapter.notifyDataSetChanged();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void deleteContact(Contact contact) {
+        new Thread(() -> contactDao.delete(contact)).start();
+        runOnUiThread(() -> {
+            contactsAdapter.deleteContact(contact);
+            contactsAdapter.notifyDataSetChanged();
+        });
     }
 
     @Override
-    public void onItemClick(Contact item) {
-        currentContact = item;
+    public void onItemClick(Contact contact) {
+        currentContact = contact;
         Intent intent = new Intent(Contacts.this, Messages.class);
         startActivity(intent);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (!currentLanguage.equals(LocaleHelper.getSelectedLanguage(this))) {
-            recreate();
-        }
+    public void onItemLongClick(Contact contact) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Contacts.this);
+        builder.setTitle("Delete Contact");
+        builder.setMessage("Are you sure you want to delete this contact?");
+        builder.setPositiveButton("Yes", (dialog, which) -> deleteContact(contact));
+        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 }

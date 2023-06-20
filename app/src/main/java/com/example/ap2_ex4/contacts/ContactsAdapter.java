@@ -7,65 +7,90 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.view.LayoutInflater;
+import androidx.annotation.NonNull;
+import android.annotation.SuppressLint;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
-    private final List<Contact> contacts;
+    private final ContactDB db;
+    private List<Contact> contacts;
     private final OnItemClickListener listener;
 
-    public ContactsAdapter(List<Contact> namesList, OnItemClickListener listener) {
-        this.contacts = namesList;
+    public ContactsAdapter(List<Contact> contacts, OnItemClickListener listener, ContactDB db) {
+        this.db = db;
+        this.contacts = contacts;
         this.listener = listener;
     }
 
+    public List<Contact> getContacts() {
+        return this.contacts;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    @NonNull
     @Override
-    public ContactsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact, parent, false);
-        return new ViewHolder(v);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.contact, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        if (contacts!=null) {
-            final Contact current = contacts.get(position);
-            holder.bind(current, listener);
-        }
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.bind(contacts.get(position), listener);
     }
 
     @Override
     public int getItemCount() {
-        if (contacts!=null) {
-            return contacts.size();
-        }
-        return 0;
+        return contacts.size();
     }
 
-    public void addItem(Contact newContact) {
-        contacts.add(newContact);
-        notifyDataSetChanged();
+    @SuppressLint("NotifyDataSetChanged")
+    public void addContact(Contact newContact) {
+        new Thread(() -> {
+            db.contactDao().insert(newContact);
+            contacts.add(newContact);
+            notifyItemInserted(contacts.size() - 1);
+        }).start();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void deleteContact(Contact contact) {
+        new Thread(() -> {
+            db.contactDao().delete(contact);
+            contacts.remove(contact);
+            setContacts(contacts);
+            notifyItemRemoved(contacts.indexOf(contact));
+        }).start();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvAuthor;
-        public TextView tvContent;
-        public ImageView ivPic;
-
-        public ViewHolder(View v) {
-            super(v);
-            ivPic = v.findViewById(R.id.ivPic);
-            tvAuthor = v.findViewById(R.id.tvAuthor);
-            tvContent = v.findViewById(R.id.tvContent);
+        public TextView contactLastTime;
+        public TextView contactDisplayName;
+        public ImageView contactProfilePic;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            contactLastTime = itemView.findViewById(R.id.contactLastTime);
+            contactProfilePic = itemView.findViewById(R.id.contactProfilePic);
+            contactDisplayName = itemView.findViewById(R.id.contactDisplayName);
         }
 
-        public void bind(final Contact item, final OnItemClickListener listener) {
-            tvContent.setText(item.getLastTime());
-            tvAuthor.setText(item.getDisplayName());
-            itemView.setOnClickListener(v -> listener.onItemClick(item));
+        public void bind(final Contact contact, final OnItemClickListener listener) {
+            contactDisplayName.setText(contact.getDisplayName());
+            contactLastTime.setText(contact.getLastTime());
+            itemView.setOnClickListener(v -> listener.onItemClick(contact));
+            itemView.setOnLongClickListener(v -> {
+                listener.onItemLongClick(contact);
+                return true;
+            });
         }
-
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Contact item);
+        void onItemClick(Contact contact);
+        void onItemLongClick(Contact contact);
     }
 }
