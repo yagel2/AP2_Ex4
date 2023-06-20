@@ -68,20 +68,19 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView ivPic;
-        public TextView tvAuthor;
-        public TextView tvContent;
-
+        public TextView contactLastTime;
+        public TextView contactDisplayName;
+        public ImageView contactProfilePic;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivPic = itemView.findViewById(R.id.ivPic);
-            tvAuthor = itemView.findViewById(R.id.tvAuthor);
-            tvContent = itemView.findViewById(R.id.tvContent);
+            contactLastTime = itemView.findViewById(R.id.contactLastTime);
+            contactProfilePic = itemView.findViewById(R.id.contactProfilePic);
+            contactDisplayName = itemView.findViewById(R.id.contactDisplayName);
         }
 
         public void bind(final Contact contact, final OnItemClickListener listener) {
-            tvAuthor.setText(contact.getDisplayName());
-            tvContent.setText(contact.getLastTime());
+            contactDisplayName.setText(contact.getDisplayName());
+            contactLastTime.setText(contact.getLastTime());
             itemView.setOnClickListener(v -> listener.onItemClick(contact));
             itemView.setOnLongClickListener(v -> {
                 listener.onItemLongClick(contact);

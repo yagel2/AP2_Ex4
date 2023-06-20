@@ -10,7 +10,9 @@ import androidx.room.Update;
 @Dao
 public interface MessageDao {
     @Query("SELECT * FROM message")
-    List<Message> index();
+    List<Message> getAllMessages();
+    @Query("SELECT * FROM message ORDER BY id DESC LIMIT 1")
+    Message getLastMessage();
     @Insert
     void insert(Message... messages);
     @Update

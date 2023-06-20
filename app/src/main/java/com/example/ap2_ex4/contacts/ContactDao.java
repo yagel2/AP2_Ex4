@@ -10,7 +10,7 @@ import androidx.room.Update;
 @Dao
 public interface ContactDao {
     @Query("SELECT * FROM contact")
-    List<Contact> index();
+    List<Contact> getAllContacts();
     @Query("SELECT * FROM contact WHERE id = :id")
     Contact get(int id);
     @Insert

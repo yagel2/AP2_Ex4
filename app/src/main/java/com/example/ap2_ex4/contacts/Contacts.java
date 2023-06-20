@@ -78,13 +78,25 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private void loadContacts() {
+        new Thread(() -> {
+            List<Contact> contacts = contactDao.getAllContacts();
+            runOnUiThread(() -> {
+                contactsAdapter.getContacts().clear();
+                contactsAdapter.setContacts(contacts);
+                contactsAdapter.notifyDataSetChanged();
+            });
+        }).start();
+    }
+
     public static Contact getCurrentContact() {
         return currentContact;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void addContact(String name) {
-        Contact newContact = new Contact(name, "", R.drawable.person_circle);
+    private void addContact(String username) {
+        Contact newContact = new Contact(username, "", R.drawable.person_circle);
         contactsAdapter.addContact(newContact);
         contactsAdapter.notifyDataSetChanged();
     }
@@ -98,21 +110,9 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         });
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private void loadContacts() {
-        new Thread(() -> {
-            List<Contact> contacts = contactDao.index();
-            runOnUiThread(() -> {
-                contactsAdapter.getContacts().clear();
-                contactsAdapter.setContacts(contacts);
-                contactsAdapter.notifyDataSetChanged();
-            });
-        }).start();
-    }
-
     @Override
-    public void onItemClick(Contact item) {
-        currentContact = item;
+    public void onItemClick(Contact contact) {
+        currentContact = contact;
         Intent intent = new Intent(Contacts.this, Messages.class);
         startActivity(intent);
     }

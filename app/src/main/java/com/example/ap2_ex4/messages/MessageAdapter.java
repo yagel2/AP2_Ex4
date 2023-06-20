@@ -11,11 +11,22 @@ import android.annotation.SuppressLint;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
-    private final List<Message> messages;
+    private final MessageDB db;
+    private List<Message> messages;
     private final OnItemClickListener listener;
-    public MessageAdapter(List<Message> messagesList, OnItemClickListener listener) {
+    public MessageAdapter(List<Message> messages, OnItemClickListener listener, MessageDB db) {
+        this.db = db;
         this.listener = listener;
-        this.messages = messagesList;
+        this.messages = messages;
+    }
+
+    public List<Message> getMessages() {
+        return this.messages;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 
     @NonNull
@@ -30,10 +41,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (messages != null) {
-            final Message current = messages.get(position);
-            holder.bind(current, listener);
-        }
+        holder.bind(messages.get(position), listener);
     }
 
     @Override
@@ -45,9 +53,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void addItem(Message newMessage) {
-        messages.add(newMessage);
-        notifyDataSetChanged();
+    public void addMessage(Message newMessage) {
+        new Thread(() -> {
+            db.messageDao().insert(newMessage);
+            messages.add(newMessage);
+            notifyItemInserted(messages.size() - 1);
+        }).start();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
