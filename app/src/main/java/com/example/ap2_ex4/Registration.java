@@ -1,5 +1,5 @@
 package com.example.ap2_ex4;
-import com.example.ap2_ex4.api.CallbackRegistration;
+import com.example.ap2_ex4.api.CallbackResponse;
 import com.example.ap2_ex4.api.UserAPI;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,7 +51,7 @@ public class Registration extends AppCompatActivity {
                 if (validateInputs()) {
                     User user = new User(usernameInput.getText().toString(), passwordInput.getText().toString(), displayNameInput.getText().toString());
                     UserAPI userAPI = UserAPI.getInstance();
-                    userAPI.registerUser(user, new CallbackRegistration() {
+                    userAPI.registerUser(user, new CallbackResponse() {
                         @Override
                         public void onResponse(boolean success) {
                             if(success){
