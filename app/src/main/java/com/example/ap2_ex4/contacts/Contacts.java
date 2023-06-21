@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import retrofit2.Call;
-
 public class Contacts extends AppCompatActivity implements ContactsAdapter.OnItemClickListener {
     private ContactDB db;
     private ContactDao contactDao;
@@ -74,11 +72,6 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
                 if (!name.isEmpty()) {
                     addContact(name);
                 }
-//                UserAPI.getInstance().addContact(name, new CallbackResponse() {
-//                    @Override
-//                    public void onResponse(boolean success) {
-//                    }
-//                });
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.show();
@@ -103,7 +96,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
 
     @SuppressLint("NotifyDataSetChanged")
     private void addContact(String username) {
-        Contact newContact = new Contact(username, "", R.drawable.person_circle);
+        Contact newContact = new Contact(username, username, R.drawable.person_circle);
         contactsAdapter.addContact(newContact);
         contactsAdapter.notifyDataSetChanged();
     }
@@ -113,6 +106,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         new Thread(() -> contactDao.delete(contact)).start();
         runOnUiThread(() -> {
             contactsAdapter.deleteContact(contact);
+            deleteDatabase(contact.getChatId());
             contactsAdapter.notifyDataSetChanged();
         });
     }
