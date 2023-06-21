@@ -23,7 +23,7 @@ public class UserAPI {
     private String token;
     private List <Chat> currentChats;
     private User connectedUser;
-    private List<MessageFormatFromServer> currentMessages;
+    private AllMessagesFromChat currentMessages;
     public User getConnectedUser() {
         return connectedUser;
     }
@@ -201,10 +201,10 @@ public class UserAPI {
     }
 
     public void getMessages(String chatId, CallbackResponse callback) {
-        Call<List<MessageFormatFromServer>> call = this.webServiceAPI.getMessages("Bearer " + token, "application/json", chatId);
-        call.enqueue(new Callback<List<MessageFormatFromServer>>() {
+        Call<AllMessagesFromChat> call = this.webServiceAPI.getMessages("Bearer " + token, "application/json", chatId);
+        call.enqueue(new Callback<AllMessagesFromChat>() {
             @Override
-            public void onResponse(Call<List<MessageFormatFromServer>> call, Response<List<MessageFormatFromServer>> response) {
+            public void onResponse(Call<AllMessagesFromChat> call, Response<AllMessagesFromChat> response) {
                 if (response.isSuccessful()) {
 //                    callback.onResponse(response.body());
                     callback.onResponse(true);
@@ -219,13 +219,13 @@ public class UserAPI {
             }
 
             @Override
-            public void onFailure(Call<List<MessageFormatFromServer>> call, Throwable t) {
+            public void onFailure(Call<AllMessagesFromChat> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
 
-    public List<MessageFormatFromServer> getCurrentMessages () {
+    public AllMessagesFromChat getCurrentMessages () {
         return currentMessages;
     }
     public void addMessage(String msg, String chatId, CallbackResponse callback) {

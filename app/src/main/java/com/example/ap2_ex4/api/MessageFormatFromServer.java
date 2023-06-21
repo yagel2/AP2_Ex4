@@ -1,13 +1,10 @@
 package com.example.ap2_ex4.api;
-
-import com.example.ap2_ex4.User;
-
 import java.util.Date;
-
 public class MessageFormatFromServer {
     private Date created;
     private UserFromServer sender;
     private String content;
+    private String id;
 
     public Date getCreated() {
         return created;
@@ -32,9 +29,10 @@ public class MessageFormatFromServer {
     public void setContent(String content) {
         this.content = content;
     }
-    public MessageFormatFromServer(Date created, UserFromServer sender, String content) {
+    public MessageFormatFromServer(Date created, UserFromServer sender, String content, String id) {
         this.created = created;
         this.sender = sender;
         this.content = content;
+        this.id = id;
     }
 }

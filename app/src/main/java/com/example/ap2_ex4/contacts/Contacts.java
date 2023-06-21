@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import com.example.ap2_ex4.Settings;
 import android.annotation.SuppressLint;
 import com.example.ap2_ex4.LocaleHelper;
+import com.example.ap2_ex4.api.AllMessagesFromChat;
 import com.example.ap2_ex4.api.CallbackResponse;
 import com.example.ap2_ex4.api.MessageFormatFromServer;
 import com.example.ap2_ex4.api.UserAPI;
@@ -37,7 +38,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         @Override
         public void onResponse(boolean success) {
             if (success) {
-                List<MessageFormatFromServer> messageFormatFromServers = UserAPI.getInstance().getCurrentMessages();
+                AllMessagesFromChat messageFormatFromServers = UserAPI.getInstance().getCurrentMessages();
             }
         }
     });
