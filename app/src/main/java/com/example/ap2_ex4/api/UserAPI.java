@@ -22,12 +22,13 @@ public class UserAPI {
     private Retrofit retrofit;
     private WebServicesApi webServiceAPI;
     private String token;
+    private List <Chat> currentChats;
+    private User connectedUser;
 
     public User getConnectedUser() {
         return connectedUser;
     }
 
-    private User connectedUser;
 
     private UserAPI() {
         retrofit = new Retrofit.Builder()
@@ -133,14 +134,15 @@ public class UserAPI {
                     callback.onResponse(false);
                 }
             }
-
             @Override
             public void onFailure(Call<List<Chat>> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
-
+    public List<Chat> getAllChatsAfterServer() {
+        return currentChats;
+    }
     public void getMessages(int chatId, CallbackResponse callback) {
         Call<List<Message>> call = this.webServiceAPI.getMessages("Bearer " + token, "application/json", chatId);
         call.enqueue(new Callback<List<Message>>() {
