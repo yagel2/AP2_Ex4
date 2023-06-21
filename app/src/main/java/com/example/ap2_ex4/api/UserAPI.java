@@ -131,8 +131,8 @@ public class UserAPI {
             @Override
             public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
                 if (response.isSuccessful()) {
-                    callback.onResponse(true);
                     currentChats = response.body();
+                    callback.onResponse(true);
                 } else {
                     Toast.makeText(MyApplication.context, "A server error occurred while getting chats", Toast.LENGTH_LONG).show();
                     callback.onResponse(false);
@@ -155,7 +155,6 @@ public class UserAPI {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     callback.onResponse(true);
-//                    contactFormatFromServer = response.body();
                 } else {
                     try {
                         // Parse the error body

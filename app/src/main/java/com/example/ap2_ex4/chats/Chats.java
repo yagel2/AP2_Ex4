@@ -11,11 +11,11 @@ public class Chats {
     private List<Chat> chats;
 
     public Chats() {
+        chats = null;
         chats = getChats();
     }
 
     public List<Chat> getChats() {
-        chats = null;
         UserAPI.getInstance().getChats(new CallbackResponse() {
             @Override
             public void onResponse(boolean success) {

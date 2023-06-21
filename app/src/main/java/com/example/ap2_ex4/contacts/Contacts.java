@@ -35,25 +35,6 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//    UserAPI.getInstance().getMessages("649303dcc25023129c007f30", new CallbackResponse() {
-//        @Override
-//        public void onResponse(boolean success) {
-//            if (success) {
-//                List<MessageFormatFromServer> messageFormatFromServers = UserAPI.getInstance().getCurrentMessages();
-//                int i = 0;
-//            }
-//        }
-//    });
-//        UserAPI.getInstance().getUser("yagel", new CallbackResponse() {
-//            @Override
-//            public void onResponse(boolean success) {
-//                if (success) {
-//                }
-//            }
-//        });
-
-
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);
         setContentView(R.layout.contacts);

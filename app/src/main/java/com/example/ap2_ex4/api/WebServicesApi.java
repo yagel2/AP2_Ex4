@@ -27,7 +27,6 @@ Call <Void> deleteContact(@Header("authorization") String authorization, @Path("
 @POST("Chats/{id}/Messages")
 Call <Void> addMessage(@Header("authorization") String authorization, @Body MessageString msg, @Path("id") String id);
 
-    //fix!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    @GET("Chats/{id}/Messages")
-    Call <List<MessageFormatFromServer>> getMessages(@Header("authorization") String authorization, @Header("accept")String accept, @Path("id") String id);
+@GET("Chats/{id}/Messages")
+Call <List<MessageFormatFromServer>> getMessages(@Header("authorization") String authorization, @Header("accept")String accept, @Path("id") String id);
 }
