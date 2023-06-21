@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import retrofit2.Call;
+
 public class Contacts extends AppCompatActivity implements ContactsAdapter.OnItemClickListener {
     private ContactDB db;
     private ContactDao contactDao;
@@ -72,6 +74,11 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
                 if (!name.isEmpty()) {
                     addContact(name);
                 }
+//                UserAPI.getInstance().addContact(name, new CallbackResponse() {
+//                    @Override
+//                    public void onResponse(boolean success) {
+//                    }
+//                });
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.show();
