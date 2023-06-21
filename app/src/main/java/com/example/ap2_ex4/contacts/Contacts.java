@@ -13,8 +13,10 @@ import com.example.ap2_ex4.Settings;
 import android.annotation.SuppressLint;
 import com.example.ap2_ex4.LocaleHelper;
 import com.example.ap2_ex4.api.CallbackResponse;
+import com.example.ap2_ex4.api.CallbackResponseMessages;
 import com.example.ap2_ex4.api.Chat;
 import com.example.ap2_ex4.api.ContactFormatFromServer;
+import com.example.ap2_ex4.api.MessageFormatFromServer;
 import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.chats.Chats;
 import com.example.ap2_ex4.messages.Messages;
@@ -34,7 +36,16 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Chats chats = new Chats();
+
+        UserAPI.getInstance().addMessage("64930072c25023129c007f24", "649303dcc25023129c007f30", new CallbackResponse() {
+            @Override
+            public void onResponse(boolean success) {
+                if (success) {
+
+                }
+            }
+        });
+
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);
         setContentView(R.layout.contacts);
@@ -81,9 +92,6 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
                 UserAPI.getInstance().addContact(name, new CallbackResponse() {
                     @Override
                     public void onResponse(boolean success) {
-                        if (success) {
-                            ContactFormatFromServer contactFormatFromServer = UserAPI.getInstance().getContactFormatFromServer();
-                        }
                     }
                 });
             });

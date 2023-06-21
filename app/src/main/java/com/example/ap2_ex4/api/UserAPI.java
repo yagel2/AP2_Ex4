@@ -27,7 +27,6 @@ public class UserAPI {
     private String token;
     private List <Chat> currentChats;
     private User connectedUser;
-    private ContactFormatFromServer contactFormatFromServer;
     public User getConnectedUser() {
         return connectedUser;
     }
@@ -153,7 +152,6 @@ public class UserAPI {
     }
     public void addContact(String username, CallbackResponse callback) {
         TempContact tempContact = new TempContact(username);
-//        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), tempContact);
         Call<Void> call = this.webServiceAPI.addContact("Bearer " + token, tempContact);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -179,28 +177,76 @@ public class UserAPI {
             }
         });
     }
-
-    public ContactFormatFromServer getContactFormatFromServer() {
-        return contactFormatFromServer;
-    }
-    public void getMessages(int chatId, CallbackResponse callback) {
-        Call<List<Message>> call = this.webServiceAPI.getMessages("Bearer " + token, "application/json", chatId);
-        call.enqueue(new Callback<List<Message>>() {
+    public void deleteContact(String id, CallbackResponse callback) {
+        Call<Void> call = this.webServiceAPI.deleteContact("Bearer " + token, id);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     callback.onResponse(true);
                 } else {
-                    Toast.makeText(MyApplication.context, "A server error occurred while getting messages", Toast.LENGTH_LONG).show();
+                    try {
+                        // Parse the error body
+                        String errorBody = response.errorBody().string();
+                        Toast.makeText(MyApplication.context, "Server Error: " + errorBody, Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     callback.onResponse(false);
                 }
             }
-
             @Override
-            public void onFailure(Call<List<Message>> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(MyApplication.context, "Request Failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 t.printStackTrace();
             }
         });
     }
 
+    public void getMessages(String chatId, CallbackResponseMessages callback) {
+        Call<List<MessageFormatFromServer>> call = this.webServiceAPI.getMessages("Bearer " + token, "application/json", chatId);
+        call.enqueue(new Callback<List<MessageFormatFromServer>>() {
+            @Override
+            public void onResponse(Call<List<MessageFormatFromServer>> call, Response<List<MessageFormatFromServer>> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+
+                } else {
+                    Toast.makeText(MyApplication.context, "A server error occurred while getting messages", Toast.LENGTH_LONG).show();
+                    callback.onResponse(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<MessageFormatFromServer>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+    public void addMessage(String msg, String chatId, CallbackResponse callback) {
+        MessageString messageString = new MessageString(msg);
+        Call<Void> call = this.webServiceAPI.addMessage("Bearer " + token, messageString, chatId);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(true);
+                } else {
+                    try {
+                        // Parse the error body
+                        String errorBody = response.errorBody().string();
+                        Toast.makeText(MyApplication.context, "Server Error: " + errorBody, Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    callback.onResponse(false);
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(MyApplication.context, "Request Failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                t.printStackTrace();
+            }
+        });
+    }
 }
