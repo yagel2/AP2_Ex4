@@ -103,7 +103,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
 
     @SuppressLint("NotifyDataSetChanged")
     private void addContact(String username) {
-        Contact newContact = new Contact(username, username, R.drawable.person_circle);
+        Contact newContact = new Contact(username, "", R.drawable.person_circle);
         contactsAdapter.addContact(newContact);
         contactsAdapter.notifyDataSetChanged();
     }
@@ -113,7 +113,6 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         new Thread(() -> contactDao.delete(contact)).start();
         runOnUiThread(() -> {
             contactsAdapter.deleteContact(contact);
-            deleteDatabase(contact.getChatId());
             contactsAdapter.notifyDataSetChanged();
         });
     }

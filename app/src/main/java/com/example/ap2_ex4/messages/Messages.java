@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import android.annotation.SuppressLint;
 import com.example.ap2_ex4.LocaleHelper;
 import com.example.ap2_ex4.contacts.Contact;
-import com.example.ap2_ex4.contacts.ContactDB;
 import com.example.ap2_ex4.contacts.Contacts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,12 +48,11 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
     private void initFields() {
         currentContact = Contacts.getCurrentContact();
         db = Room.databaseBuilder(getApplicationContext(),
-                MessageDB.class, currentContact.getChatId()).build();
+                MessageDB.class, "messagesDB").build();
         messageDao = db.messageDao();
         messageAdapter = new MessageAdapter(new ArrayList<>(), this, db);
         messagesRecyclerView = findViewById(R.id.messages_recycler_view);
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        messagesRecyclerView.setAdapter(messageAdapter);
         messagesRecyclerView.setAdapter(messageAdapter);
     }
 
