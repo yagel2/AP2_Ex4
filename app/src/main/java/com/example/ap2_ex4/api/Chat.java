@@ -2,25 +2,46 @@ package com.example.ap2_ex4.api;
 import com.example.ap2_ex4.User;
 import java.util.List;
 public class Chat {
-    private List<User> users; //contacts
-    private List<MessageFormatFromServer> messages;
-    public Chat(List<User> users, List<MessageFormatFromServer> messages) {
-        this.users = users;
-        this.messages = messages;
-    }
-    public List<User> getUsers() {
-        return users;
+
+
+//    id: chat.id,
+//    user: contact,
+//    lastMessage: chat.messages[0]
+
+
+//    private List<UserFromServer> users; //contacts
+//    private List<MessageFormatFromServer> messages;
+    private UserFromServer user;
+    private MessageFormatFromServer lastMessage;
+    private String id;
+
+    public UserFromServer getUser() {
+        return user;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUser(UserFromServer user) {
+        this.user = user;
     }
 
-    public List<MessageFormatFromServer> getMessages() {
-        return messages;
+    public MessageFormatFromServer getLastMessage() {
+        return lastMessage;
     }
 
-    public void setMessages(List<MessageFormatFromServer> messages) {
-        this.messages = messages;
+    public void setLastMessage(MessageFormatFromServer lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Chat(UserFromServer user, MessageFormatFromServer lastMessage, String id) {
+        this.user = user;
+        this.lastMessage = lastMessage;
+        this.id = id;
     }
 }

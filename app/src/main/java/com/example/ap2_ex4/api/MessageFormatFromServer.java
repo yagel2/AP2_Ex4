@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class MessageFormatFromServer {
     private Date created;
-    private User sender;
+    private UserFromServer sender;
     private String content;
 
     public Date getCreated() {
@@ -17,11 +17,11 @@ public class MessageFormatFromServer {
         this.created = created;
     }
 
-    public User getSender() {
+    public UserFromServer getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(UserFromServer sender) {
         this.sender = sender;
     }
 
@@ -32,7 +32,7 @@ public class MessageFormatFromServer {
     public void setContent(String content) {
         this.content = content;
     }
-    public MessageFormatFromServer(Date created, User sender, String content) {
+    public MessageFormatFromServer(Date created, UserFromServer sender, String content) {
         this.created = created;
         this.sender = sender;
         this.content = content;

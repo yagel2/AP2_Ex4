@@ -7,11 +7,14 @@ import com.example.ap2_ex4.User;
 import com.example.ap2_ex4.messages.Message;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,9 +32,15 @@ public class UserAPI {
         return connectedUser;
     }
     private UserAPI() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
         webServiceAPI = retrofit.create(WebServicesApi.class);
     }
@@ -142,48 +151,35 @@ public class UserAPI {
     public List<Chat> getAllChatsAfterServer() {
         return currentChats;
     }
-
-//    public void addContact(String username, CallbackResponse callback) {
-//        Call<ContactFormatFromServer> call = this.webServiceAPI.addContact("Bearer " + token, "application/json");
-//        call.enqueue(new Callback<ContactFormatFromServer>() {
-//            @Override
-//            public void onResponse(Call<ContactFormatFromServer> call, Response<ContactFormatFromServer> response) {
-//                if (response.isSuccessful()) {
-//                    callback.onResponse(true);
-//                } else {
-//                    Toast.makeText(MyApplication.context, "A server error occurred while getting chats", Toast.LENGTH_LONG).show();
-//                    callback.onResponse(false);
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ContactFormatFromServer> call, Throwable t) {
-//                t.printStackTrace();
-//            }
-//        });
-//    }
-
     public void addContact(String username, CallbackResponse callback) {
-        // Prepare the RequestBody from the username
-        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), username);
-
-        Call<ContactFormatFromServer> call = this.webServiceAPI.addContact("Bearer " + token, body);
-        call.enqueue(new Callback<ContactFormatFromServer>() {
+        TempContact tempContact = new TempContact(username);
+//        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), tempContact);
+        Call<Void> call = this.webServiceAPI.addContact("Bearer " + token, tempContact);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<ContactFormatFromServer> call, Response<ContactFormatFromServer> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     callback.onResponse(true);
-                    contactFormatFromServer = response.body();
+//                    contactFormatFromServer = response.body();
                 } else {
-                    Toast.makeText(MyApplication.context, "A server error occurred while adding contact", Toast.LENGTH_LONG).show();
+                    try {
+                        // Parse the error body
+                        String errorBody = response.errorBody().string();
+                        Toast.makeText(MyApplication.context, "Server Error: " + errorBody, Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     callback.onResponse(false);
                 }
             }
             @Override
-            public void onFailure(Call<ContactFormatFromServer> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(MyApplication.context, "Request Failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 t.printStackTrace();
             }
         });
     }
+
     public ContactFormatFromServer getContactFormatFromServer() {
         return contactFormatFromServer;
     }

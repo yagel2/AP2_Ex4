@@ -3,27 +3,27 @@ package com.example.ap2_ex4.api;
 import com.example.ap2_ex4.User;
 
 public class ContactFormatFromServer {
-    private User user;
-    private int id;
+    private UserFromServer user;
+    private String id;
 
-    public ContactFormatFromServer(User user, int id) {
+    public ContactFormatFromServer(UserFromServer user, String id) {
         this.user = user;
         this.id = id;
     }
 
-    public User getUser() {
+    public UserFromServer getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserFromServer user) {
         this.user = user;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

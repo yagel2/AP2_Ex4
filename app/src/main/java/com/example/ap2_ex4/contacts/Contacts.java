@@ -12,6 +12,11 @@ import android.widget.ImageButton;
 import com.example.ap2_ex4.Settings;
 import android.annotation.SuppressLint;
 import com.example.ap2_ex4.LocaleHelper;
+import com.example.ap2_ex4.api.CallbackResponse;
+import com.example.ap2_ex4.api.Chat;
+import com.example.ap2_ex4.api.ContactFormatFromServer;
+import com.example.ap2_ex4.api.UserAPI;
+import com.example.ap2_ex4.chats.Chats;
 import com.example.ap2_ex4.messages.Messages;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +34,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Chats chats = new Chats();
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);
         setContentView(R.layout.contacts);
@@ -72,6 +78,14 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
                 if (!name.isEmpty()) {
                     addContact(name);
                 }
+                UserAPI.getInstance().addContact(name, new CallbackResponse() {
+                    @Override
+                    public void onResponse(boolean success) {
+                        if (success) {
+                            ContactFormatFromServer contactFormatFromServer = UserAPI.getInstance().getContactFormatFromServer();
+                        }
+                    }
+                });
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.show();

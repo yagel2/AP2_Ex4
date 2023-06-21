@@ -24,7 +24,7 @@ Call<User> getUser(@Header("authorization") String authHeader, @Path("username")
 @GET("Chats")
 Call <List<Chat>> getChats(@Header("authorization") String authorization, @Header("accept")String accept);
 @POST("Chats")
-Call<ContactFormatFromServer> addContact(@Header("authorization") String authorization, @Body RequestBody username);
+Call<Void> addContact(@Header("authorization") String authorization, @Body TempContact username);
 @GET("Chats/{id}/Messages")
 Call <List<Message>> getMessages(@Header("authorization") String authorization, @Header("accept")String accept, @Path("id") int id); //check after yagel
 //@POST("Chats/{id}/Messages")
