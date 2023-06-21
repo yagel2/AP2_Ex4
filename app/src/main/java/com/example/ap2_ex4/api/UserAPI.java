@@ -24,12 +24,10 @@ public class UserAPI {
     private String token;
     private List <Chat> currentChats;
     private User connectedUser;
-
+    private ContactFormatFromServer contactFormatFromServer;
     public User getConnectedUser() {
         return connectedUser;
     }
-
-
     private UserAPI() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
@@ -129,6 +127,7 @@ public class UserAPI {
             public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
                 if (response.isSuccessful()) {
                     callback.onResponse(true);
+                    currentChats = response.body();
                 } else {
                     Toast.makeText(MyApplication.context, "A server error occurred while getting chats", Toast.LENGTH_LONG).show();
                     callback.onResponse(false);
@@ -142,6 +141,51 @@ public class UserAPI {
     }
     public List<Chat> getAllChatsAfterServer() {
         return currentChats;
+    }
+
+//    public void addContact(String username, CallbackResponse callback) {
+//        Call<ContactFormatFromServer> call = this.webServiceAPI.addContact("Bearer " + token, "application/json");
+//        call.enqueue(new Callback<ContactFormatFromServer>() {
+//            @Override
+//            public void onResponse(Call<ContactFormatFromServer> call, Response<ContactFormatFromServer> response) {
+//                if (response.isSuccessful()) {
+//                    callback.onResponse(true);
+//                } else {
+//                    Toast.makeText(MyApplication.context, "A server error occurred while getting chats", Toast.LENGTH_LONG).show();
+//                    callback.onResponse(false);
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ContactFormatFromServer> call, Throwable t) {
+//                t.printStackTrace();
+//            }
+//        });
+//    }
+
+    public void addContact(String username, CallbackResponse callback) {
+        // Prepare the RequestBody from the username
+        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), username);
+
+        Call<ContactFormatFromServer> call = this.webServiceAPI.addContact("Bearer " + token, body);
+        call.enqueue(new Callback<ContactFormatFromServer>() {
+            @Override
+            public void onResponse(Call<ContactFormatFromServer> call, Response<ContactFormatFromServer> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(true);
+                    contactFormatFromServer = response.body();
+                } else {
+                    Toast.makeText(MyApplication.context, "A server error occurred while adding contact", Toast.LENGTH_LONG).show();
+                    callback.onResponse(false);
+                }
+            }
+            @Override
+            public void onFailure(Call<ContactFormatFromServer> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+    public ContactFormatFromServer getContactFormatFromServer() {
+        return contactFormatFromServer;
     }
     public void getMessages(int chatId, CallbackResponse callback) {
         Call<List<Message>> call = this.webServiceAPI.getMessages("Bearer " + token, "application/json", chatId);
