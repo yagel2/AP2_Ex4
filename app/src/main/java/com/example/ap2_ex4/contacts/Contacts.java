@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import com.example.ap2_ex4.Settings;
 import android.annotation.SuppressLint;
 import com.example.ap2_ex4.LocaleHelper;
+import com.example.ap2_ex4.User;
 import com.example.ap2_ex4.api.CallbackResponse;
 import com.example.ap2_ex4.api.CallbackResponseMessages;
 import com.example.ap2_ex4.api.Chat;
@@ -37,14 +38,14 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UserAPI.getInstance().addMessage("64930072c25023129c007f24", "649303dcc25023129c007f30", new CallbackResponse() {
-            @Override
-            public void onResponse(boolean success) {
-                if (success) {
-
-                }
+    UserAPI.getInstance().getMessages("649303dcc25023129c007f30", new CallbackResponse() {
+        @Override
+        public void onResponse(boolean success) {
+            if (success) {
+                List<MessageFormatFromServer> messageFormatFromServers = UserAPI.getInstance().getCurrentMessages();
             }
-        });
+        }
+    });
 
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);

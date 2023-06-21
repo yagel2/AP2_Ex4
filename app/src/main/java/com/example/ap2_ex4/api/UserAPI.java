@@ -27,6 +27,7 @@ public class UserAPI {
     private String token;
     private List <Chat> currentChats;
     private User connectedUser;
+    private List<MessageFormatFromServer> currentMessages;
     public User getConnectedUser() {
         return connectedUser;
     }
@@ -203,17 +204,21 @@ public class UserAPI {
         });
     }
 
-    public void getMessages(String chatId, CallbackResponseMessages callback) {
+    public void getMessages(String chatId, CallbackResponse callback) {
         Call<List<MessageFormatFromServer>> call = this.webServiceAPI.getMessages("Bearer " + token, "application/json", chatId);
         call.enqueue(new Callback<List<MessageFormatFromServer>>() {
             @Override
             public void onResponse(Call<List<MessageFormatFromServer>> call, Response<List<MessageFormatFromServer>> response) {
                 if (response.isSuccessful()) {
-                    callback.onResponse(response.body());
+//                    callback.onResponse(response.body());
+                    callback.onResponse(true);
+                    currentMessages = response.body();
 
                 } else {
                     Toast.makeText(MyApplication.context, "A server error occurred while getting messages", Toast.LENGTH_LONG).show();
-                    callback.onResponse(null);
+//                    callback.onResponse(null);
+                    callback.onResponse(false);
+                    currentMessages = null;
                 }
             }
 
@@ -222,6 +227,10 @@ public class UserAPI {
                 t.printStackTrace();
             }
         });
+    }
+
+    public List<MessageFormatFromServer> getCurrentMessages () {
+        return currentMessages;
     }
     public void addMessage(String msg, String chatId, CallbackResponse callback) {
         MessageString messageString = new MessageString(msg);

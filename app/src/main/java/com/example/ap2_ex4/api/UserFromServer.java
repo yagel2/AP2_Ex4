@@ -6,8 +6,6 @@ public class UserFromServer {
     private String username;
     private String displayName;
     private String profilePic;
-    private String _id;
-
     public String getUsername() {
         return username;
     }
@@ -16,13 +14,11 @@ public class UserFromServer {
         this.username = username;
     }
 
-    public UserFromServer(String username, String password, String displayName, String id) {
-
-        //fix the image
-        this._id = id;
+    public UserFromServer(String username, String displayName, String profilePic) {
         this.username = username;
         this.displayName = displayName;
-        this.profilePic = String.valueOf(R.drawable.person_circle);
+//        this.profilePic = String.valueOf(R.drawable.person_circle);
+        this.profilePic = profilePic;
     }
     public String getDisplayName() {
         return displayName;
