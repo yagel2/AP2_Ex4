@@ -1,9 +1,22 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AP2_Ex4" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+    <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Other item definitions -->
+        <item name="android:textColor">@color/light_text_color</item>
+        <item name="android:windowBackground">@color/light_background_color</item>
+        <item name="colorSurface">@color/light_surface_color</item>
     </style>
 
-    <style name="Theme.AP2_Ex4" parent="Base.Theme.AP2_Ex4" />
+    <style name="AppTheme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Other item definitions -->
+        <item name="android:textColor">@color/dark_text_color</item>
+        <item name="android:windowBackground">@color/dark_background_color</item>
+        <item name="colorSurface">@color/dark_surface_color</item>
+    </style>
+
+    <style name="AppTheme.Default" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Other item definitions -->
+        <item name="android:textColor">@color/default_text_color</item>
+        <item name="android:windowBackground">@color/blueInput</item>
+        <item name="colorSurface">@color/default_surface_color</item>
+    </style>
 </resources>

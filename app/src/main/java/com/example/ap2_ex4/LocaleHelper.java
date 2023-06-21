@@ -30,4 +30,14 @@ public class LocaleHelper {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.edit().putString(SELECTED_LANGUAGE_KEY, languageCode).apply();
     }
+    public static void setTheme(Context context, String theme) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putString("theme", theme).apply();
+    }
+
+    public static String getTheme(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString("theme", "default");
+    }
+
 }
