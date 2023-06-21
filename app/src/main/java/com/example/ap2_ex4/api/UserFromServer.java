@@ -1,7 +1,4 @@
 package com.example.ap2_ex4.api;
-
-import com.example.ap2_ex4.R;
-
 public class UserFromServer {
     private String username;
     private String displayName;

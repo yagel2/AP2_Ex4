@@ -1,11 +1,7 @@
 package com.example.ap2_ex4.api;
-
 import com.example.ap2_ex4.ConnectionDetails;
 import com.example.ap2_ex4.User;
-import com.example.ap2_ex4.messages.Message;
-
 import java.util.List;
-
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -28,10 +24,10 @@ Call <List<Chat>> getChats(@Header("authorization") String authorization, @Heade
 Call<Void> addContact(@Header("authorization") String authorization, @Body TempContact username);
 @DELETE("Chats/{id}")
 Call <Void> deleteContact(@Header("authorization") String authorization, @Path("id") String id);
-
-//fix!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-@GET("Chats/{id}/Messages")
-Call <List<MessageFormatFromServer>> getMessages(@Header("authorization") String authorization, @Header("accept")String accept, @Path("id") String id);
 @POST("Chats/{id}/Messages")
 Call <Void> addMessage(@Header("authorization") String authorization, @Body MessageString msg, @Path("id") String id);
+
+    //fix!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    @GET("Chats/{id}/Messages")
+    Call <List<MessageFormatFromServer>> getMessages(@Header("authorization") String authorization, @Header("accept")String accept, @Path("id") String id);
 }

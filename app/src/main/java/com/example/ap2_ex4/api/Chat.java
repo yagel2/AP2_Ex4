@@ -2,15 +2,6 @@ package com.example.ap2_ex4.api;
 import com.example.ap2_ex4.User;
 import java.util.List;
 public class Chat {
-
-
-//    id: chat.id,
-//    user: contact,
-//    lastMessage: chat.messages[0]
-
-
-//    private List<UserFromServer> users; //contacts
-//    private List<MessageFormatFromServer> messages;
     private UserFromServer user;
     private MessageFormatFromServer lastMessage;
     private String id;

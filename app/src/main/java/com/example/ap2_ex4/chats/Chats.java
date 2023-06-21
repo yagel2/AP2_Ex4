@@ -2,7 +2,6 @@ package com.example.ap2_ex4.chats;
 
 import com.example.ap2_ex4.User;
 import com.example.ap2_ex4.api.CallbackResponse;
-import com.example.ap2_ex4.api.CallbackResponseChats;
 import com.example.ap2_ex4.api.Chat;
 import com.example.ap2_ex4.api.UserAPI;
 
