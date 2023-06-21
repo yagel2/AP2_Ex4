@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import retrofit2.Call;
+
 public class Contacts extends AppCompatActivity implements ContactsAdapter.OnItemClickListener {
     private ContactDB db;
     private ContactDao contactDao;
@@ -34,14 +36,23 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-    UserAPI.getInstance().getMessages("649303dcc25023129c007f30", new CallbackResponse() {
-        @Override
-        public void onResponse(boolean success) {
-            if (success) {
-                AllMessagesFromChat messageFormatFromServers = UserAPI.getInstance().getCurrentMessages();
-            }
-        }
-    });
+//    UserAPI.getInstance().getMessages("649303dcc25023129c007f30", new CallbackResponse() {
+//        @Override
+//        public void onResponse(boolean success) {
+//            if (success) {
+//                List<MessageFormatFromServer> messageFormatFromServers = UserAPI.getInstance().getCurrentMessages();
+//                int i = 0;
+//            }
+//        }
+//    });
+//        UserAPI.getInstance().getUser("yagel", new CallbackResponse() {
+//            @Override
+//            public void onResponse(boolean success) {
+//                if (success) {
+//                }
+//            }
+//        });
+
 
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);
@@ -86,11 +97,11 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
                 if (!name.isEmpty()) {
                     addContact(name);
                 }
-                UserAPI.getInstance().addContact(name, new CallbackResponse() {
-                    @Override
-                    public void onResponse(boolean success) {
-                    }
-                });
+//                UserAPI.getInstance().addContact(name, new CallbackResponse() {
+//                    @Override
+//                    public void onResponse(boolean success) {
+//                    }
+//                });
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.show();
