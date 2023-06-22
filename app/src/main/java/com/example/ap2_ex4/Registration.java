@@ -1,5 +1,6 @@
 package com.example.ap2_ex4;
-
+import com.example.ap2_ex4.api.CallbackResponse;
+import com.example.ap2_ex4.api.UserAPI;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -9,11 +10,11 @@ import android.text.TextUtils;
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.example.ap2_ex4.api.UserAPI;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.ap2_ex4.api.CallbackResponse;
 
 public class Registration extends AppCompatActivity {
     private String currentLanguage;
@@ -48,8 +49,7 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateInputs()) {
-                    User user = new User(usernameInput.getText().toString(),
-                            passwordInput.getText().toString(), displayNameInput.getText().toString());
+                    User user = new User(usernameInput.getText().toString(), passwordInput.getText().toString(), displayNameInput.getText().toString());
                     UserAPI userAPI = UserAPI.getInstance();
                     userAPI.registerUser(user, new CallbackResponse() {
                         @Override
@@ -96,19 +96,15 @@ public class Registration extends AppCompatActivity {
             return false;
         }
         if (password.length() < 8 || !isAlphanumeric(password)) {
-            Toast.makeText(this,
-                    "Password must have at least 8 characters and contain both letters and numbers",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Password must have at least 8 characters and contain both letters and numbers", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (!password.equals(confirmPassword)) {
-            Toast.makeText(this, "Password and confirm password do not match",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Password and confirm password do not match", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (TextUtils.isEmpty(displayName)) {
-            Toast.makeText(this, "Display name cannot be empty",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Display name cannot be empty", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

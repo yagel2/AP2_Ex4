@@ -1,32 +1,32 @@
 package com.example.ap2_ex4.api;
-
+import android.widget.Toast;
+import com.example.ap2_ex4.ConnectionDetails;
+import com.example.ap2_ex4.MyApplication;
+import com.example.ap2_ex4.R;
+import com.example.ap2_ex4.User;
+import com.google.gson.Gson;
+import java.io.IOException;
 import java.util.List;
-import retrofit2.Call;
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import java.io.IOException;
-import okhttp3.RequestBody;
-import android.widget.Toast;
-import com.google.gson.Gson;
-import okhttp3.OkHttpClient;
-import com.example.ap2_ex4.R;
-import com.example.ap2_ex4.User;
-import com.example.ap2_ex4.MyApplication;
-import com.example.ap2_ex4.ConnectionDetails;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 public class UserAPI {
-    private String token;
-    private Retrofit retrofit;
-    private User connectedUser;
     private static UserAPI userAPI;
-    private List<Chat> currentChats;
+    private Retrofit retrofit;
     private WebServicesApi webServiceAPI;
+    private String token;
+    private List <Chat> currentChats;
+    private User connectedUser;
     private List<MessageFormatFromServer> currentMessages;
-
+    public User getConnectedUser() {
+        return connectedUser;
+    }
     private UserAPI() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -41,14 +41,11 @@ public class UserAPI {
         webServiceAPI = retrofit.create(WebServicesApi.class);
     }
 
-    public User getConnectedUser() {
-        return connectedUser;
-    }
-
     public static synchronized UserAPI getInstance() {
         if (userAPI == null) {
             userAPI = new UserAPI();
         }
+
         return userAPI;
     }
 
@@ -141,18 +138,15 @@ public class UserAPI {
                     callback.onResponse(false);
                 }
             }
-
             @Override
             public void onFailure(Call<List<Chat>> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
-
     public List<Chat> getAllChatsAfterServer() {
         return currentChats;
     }
-
     public void addContact(String username, CallbackResponse callback) {
         TempContact tempContact = new TempContact(username);
         Call<Void> call = this.webServiceAPI.addContact("Bearer " + token, tempContact);
@@ -172,7 +166,6 @@ public class UserAPI {
                     callback.onResponse(false);
                 }
             }
-
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(MyApplication.context, "Request Failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
@@ -180,7 +173,6 @@ public class UserAPI {
             }
         });
     }
-
     public void deleteContact(String id, CallbackResponse callback) {
         Call<Void> call = this.webServiceAPI.deleteContact("Bearer " + token, id);
         call.enqueue(new Callback<Void>() {
@@ -199,7 +191,6 @@ public class UserAPI {
                     callback.onResponse(false);
                 }
             }
-
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(MyApplication.context, "Request Failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
@@ -233,10 +224,9 @@ public class UserAPI {
         });
     }
 
-    public List<MessageFormatFromServer> getCurrentMessages() {
+    public List<MessageFormatFromServer> getCurrentMessages () {
         return currentMessages;
     }
-
     public void addMessage(String msg, String chatId, CallbackResponse callback) {
         MessageString messageString = new MessageString(msg);
         Call<Void> call = this.webServiceAPI.addMessage("Bearer " + token, messageString, chatId);
@@ -256,7 +246,6 @@ public class UserAPI {
                     callback.onResponse(false);
                 }
             }
-
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(MyApplication.context, "Request Failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
