@@ -108,15 +108,22 @@ public class UserAPI {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     setToken(response.body());
                     callback.onResponse(true);
                 } else {
-                    Toast.makeText(MyApplication.context, "Username or password doesn't match", Toast.LENGTH_LONG).show();
+                    String errorMessage = "Request failed";
+                    if (response.errorBody() != null) {
+                        try {
+                            errorMessage = response.errorBody().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     callback.onResponse(false);
+                    Toast.makeText(MyApplication.context, errorMessage, Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 t.printStackTrace();
