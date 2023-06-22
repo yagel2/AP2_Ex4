@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 public class Contact {
     @PrimaryKey(autoGenerate = true)
     private int id;
+    private String serverId;
     private String lastTime;
     private final int profilePic;
     private final String displayName;
@@ -19,6 +20,10 @@ public class Contact {
 
     public int getId() {
         return id;
+    }
+
+    public String getServerId() {
+        return serverId;
     }
 
     public int getProfilePic() {
@@ -35,6 +40,10 @@ public class Contact {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
     }
 
     public void setLastTime(String lastTime) {

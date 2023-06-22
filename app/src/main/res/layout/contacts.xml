@@ -28,7 +28,7 @@
         tools:layout_editor_absoluteX="0dp">
 
         <ImageView
-            android:id="@+id/left_photo"
+            android:id="@+id/userProfilePic"
             android:layout_width="57dp"
             android:layout_height="57dp"
             android:layout_marginStart="5dp"
@@ -41,11 +41,11 @@
             android:importantForAccessibility="no" />
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/usernameHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="@string/UsernameHeading"
+            android:text="@string/usernameHeading"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
