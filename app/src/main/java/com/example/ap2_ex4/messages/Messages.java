@@ -48,7 +48,7 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
     private void initFields() {
         currentContact = Contacts.getCurrentContact();
         db = Room.databaseBuilder(getApplicationContext(),
-                MessageDB.class, "messagesDB").build();
+                MessageDB.class, currentContact.getDisplayName()).build();
         messageDao = db.messageDao();
         messageAdapter = new MessageAdapter(new ArrayList<>(), this, db);
         messagesRecyclerView = findViewById(R.id.messages_recycler_view);
