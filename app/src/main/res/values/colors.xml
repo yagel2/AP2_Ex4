@@ -6,19 +6,4 @@
     <color name="blueInput">#A2CDED</color>
     <color name="buttonToNextPage">#27699A</color>
     <color name="contact">#0E568C</color>
-        <color name="light_primary_color">#A2CDED</color>
-        <color name="light_primary_dark_color">#000000</color>
-        <color name="light_accent_color">#FF4081</color>
-        <color name="dark_primary_color">#000000</color>
-        <color name="light_surface_color">#000000</color>
-    <color name="dark_surface_color">#22199E</color>
-    <color name="default_surface_color">#A2CDED</color>
-
-    <color name="dark_primary_dark_color">#FFFFFF</color>
-    <color name="dark_background_color">#22199E</color>  <!-- Dark theme background color -->
-    <color name="dark_accent_color">#FF4081</color>
-    <color name="light_background_color">#A2CDED</color> <!-- Light theme background color -->
-<color name="light_text_color">#000000</color>  <!-- Light theme text color -->
-<color name="dark_text_color">#FFFFFF</color>  <!-- Dark theme text color -->
-<color name="default_text_color">#000000</color>  <!-- Default theme text color -->
 </resources>
