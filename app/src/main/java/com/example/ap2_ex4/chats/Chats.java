@@ -1,11 +1,9 @@
 package com.example.ap2_ex4.chats;
 
-import com.example.ap2_ex4.User;
-import com.example.ap2_ex4.api.CallbackResponse;
+import java.util.List;
 import com.example.ap2_ex4.api.Chat;
 import com.example.ap2_ex4.api.UserAPI;
-
-import java.util.List;
+import com.example.ap2_ex4.api.CallbackResponse;
 
 public class Chats {
     private List<Chat> chats;
