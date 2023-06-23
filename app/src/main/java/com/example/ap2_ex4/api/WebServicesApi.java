@@ -28,7 +28,7 @@ public interface WebServicesApi {
                               @Header("accept") String accept);
 
     @POST("Chats")
-    Call<Void> addContact(@Header("authorization") String authorization,
+    Call<LastAddedContact> addContact(@Header("authorization") String authorization,
                           @Body TempContact username);
 
     @DELETE("Chats/{id}")

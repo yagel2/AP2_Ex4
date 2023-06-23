@@ -1,28 +1,46 @@
 package com.example.ap2_ex4.contacts;
 
 import java.util.List;
+
 import android.os.Bundle;
+
 import androidx.room.Room;
+
 import java.util.ArrayList;
+
+import com.example.ap2_ex4.Connection;
+import com.example.ap2_ex4.MyApplication;
 import com.example.ap2_ex4.R;
+
 import android.content.Intent;
 import android.widget.EditText;
 import android.app.AlertDialog;
 import android.widget.TextView;
 import android.widget.ImageButton;
+
+import com.example.ap2_ex4.Registration;
 import com.example.ap2_ex4.Settings;
+
 import android.annotation.SuppressLint;
+import android.widget.Toast;
+
+import com.example.ap2_ex4.User;
+import com.example.ap2_ex4.api.CallbackResponse;
+import com.example.ap2_ex4.api.Chat;
+import com.example.ap2_ex4.api.LastAddedContact;
 import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.LocaleHelper;
 import com.example.ap2_ex4.messages.Messages;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Contacts extends AppCompatActivity implements ContactsAdapter.OnItemClickListener {
     private ContactDB db;
-    private ContactDao contactDao;
+    private UserAPI userApi;
     private String currentLanguage;
     private static Contact currentContact;
     private ContactsAdapter contactsAdapter;
@@ -38,6 +56,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         handleContacts();
         loadContacts();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -47,11 +66,15 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
     }
 
     private void initFields() {
-//        TextView usernameHeading = findViewById(R.id.usernameHeading);
-//        usernameHeading.setText(UserAPI.getInstance().getConnectedUser().getUsername());
+        if (UserAPI.getInstance().isFirst()) {
+            deleteDatabase("contactsDB");
+            UserAPI.getInstance().setFirst(false);
+        }
+        this.userApi = UserAPI.getInstance();
+        TextView usernameHeading = findViewById(R.id.usernameHeading);
+        usernameHeading.setText(this.userApi.getConnectedUser().getUsername());
         db = Room.databaseBuilder(getApplicationContext(),
-                ContactDB.class, "contactsDB").build();
-        contactDao = db.contactDao();
+                ContactDB.class, "contactsDB").allowMainThreadQueries().build();
         contactsAdapter = new ContactsAdapter(new ArrayList<>(), this, db);
         contactsRecyclerView = findViewById(R.id.contacts_recycler_view);
         contactsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -85,7 +108,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
     @SuppressLint("NotifyDataSetChanged")
     private void loadContacts() {
         new Thread(() -> {
-            List<Contact> contacts = contactDao.getAllContacts();
+            List<Contact> contacts = db.contactDao().getAllContacts();
             runOnUiThread(() -> {
                 contactsAdapter.getContacts().clear();
                 contactsAdapter.setContacts(contacts);
@@ -100,17 +123,40 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
 
     @SuppressLint("NotifyDataSetChanged")
     private void addContact(String username) {
-        Contact newContact = new Contact(username, "", R.drawable.person_circle);
-        contactsAdapter.addContact(newContact);
-        contactsAdapter.notifyDataSetChanged();
+        if (db.contactDao().findContactByUsername(username) != null) {
+            Toast.makeText(MyApplication.context,
+                    "The user already exists in your contact list",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        userApi.addContact(username, success -> {
+            if (success) {
+                LastAddedContact contactDetails = userApi.getLastAdded();
+                Contact newContact = new Contact(contactDetails.getContact().getUsername(),
+                        contactDetails.getContact().getDisplayName(),
+                        contactDetails.getId(), R.drawable.person_circle);
+                contactsAdapter.addContact(newContact);
+                contactsAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private void deleteContact(Contact contact) {
-        new Thread(() -> contactDao.delete(contact)).start();
-        runOnUiThread(() -> {
-            contactsAdapter.deleteContact(contact);
-            contactsAdapter.notifyDataSetChanged();
+//        runOnUiThread(() -> {
+//            userApi.deleteContact(contact.getServerId(), success -> {
+//                if (success) {
+//                    contactsAdapter.deleteContact(contact);
+//                    contactsAdapter.notifyDataSetChanged();
+//                }
+//            });
+//        });
+
+        userApi.deleteContact(contact.getServerId(), success -> {
+            if (success) {
+                contactsAdapter.deleteContact(contact);
+                contactsAdapter.notifyDataSetChanged();
+            }
         });
     }
 

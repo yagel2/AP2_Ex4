@@ -49,15 +49,14 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateInputs()) {
-                    User user = new User(usernameInput.getText().toString(), passwordInput.getText().toString(), displayNameInput.getText().toString());
+                    User user = new User(usernameInput.getText().toString(),
+                            passwordInput.getText().toString(),
+                            displayNameInput.getText().toString());
                     UserAPI userAPI = UserAPI.getInstance();
-                    userAPI.registerUser(user, new CallbackResponse() {
-                        @Override
-                        public void onResponse(boolean success) {
-                            if(success){
-                                Intent intent = new Intent(Registration.this, Connection.class);
-                                startActivity(intent);
-                            }
+                    userAPI.registerUser(user, success -> {
+                        if(success){
+                            Intent intent = new Intent(Registration.this, Connection.class);
+                            startActivity(intent);
                         }
                     });
                 }

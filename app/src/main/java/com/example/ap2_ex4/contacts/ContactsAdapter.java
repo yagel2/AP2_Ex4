@@ -62,9 +62,14 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         new Thread(() -> {
             db.contactDao().delete(contact);
             contacts.remove(contact);
-            setContacts(contacts);
             notifyItemRemoved(contacts.indexOf(contact));
         }).start();
+
+//        new Thread(() -> {
+//            new Thread(() -> db.contactDao().delete(contact)).start();
+//            contacts.remove(contact);
+//            notifyItemRemoved(contacts.indexOf(contact));
+//        }).start();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
