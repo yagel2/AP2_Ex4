@@ -1,22 +1,18 @@
 package com.example.ap2_ex4;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 import android.widget.Button;
 import android.text.TextUtils;
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.example.ap2_ex4.api.CallbackResponse;
 import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.contacts.Contacts;
-
 import androidx.appcompat.app.AppCompatActivity;
+
 public class Connection extends AppCompatActivity {
     private String currentLanguage;
     private EditText usernameInput;
@@ -27,39 +23,9 @@ public class Connection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);
-
         setContentView(R.layout.connection);
-
-        usernameInput = findViewById(R.id.editTextTextUsername);
-        passwordInput = findViewById(R.id.editTextTextPassword);
-
-        Button connectButton = findViewById(R.id.connect);
-        connectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validateInputs()) {
-                    ConnectionDetails connectionDetails = new ConnectionDetails(usernameInput.getText().toString(), passwordInput.getText().toString());
-                    UserAPI userAPI = UserAPI.getInstance();
-                    userAPI.loginUser(connectionDetails, new CallbackResponse() {
-                        @Override
-                        public void onResponse(boolean success) {
-                            if (success) {
-                                Intent intent = new Intent(Connection.this, Contacts.class);
-                                startActivity(intent);
-                            }
-                        }
-                    });
-                }
-            }
-        });
-
-        TextView registerLink = findViewById(R.id.register_link);
-        registerLink.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(Connection.this, Registration.class);
-                startActivity(intent);
-            }
-        });
+        initFields();
+        handleConnection();
     }
 
     @Override
@@ -68,6 +34,34 @@ public class Connection extends AppCompatActivity {
         if (!currentLanguage.equals(LocaleHelper.getSelectedLanguage(this))) {
             recreate();
         }
+    }
+
+    private void initFields() {
+        usernameInput = findViewById(R.id.editTextTextUsername);
+        passwordInput = findViewById(R.id.editTextTextPassword);
+    }
+
+    private void handleConnection() {
+        Button connectButton = findViewById(R.id.connect);
+        connectButton.setOnClickListener(v -> {
+            if (validateInputs()) {
+                ConnectionDetails connectionDetails = new ConnectionDetails(
+                        usernameInput.getText().toString(), passwordInput.getText().toString());
+                UserAPI userAPI = UserAPI.getInstance();
+                userAPI.loginUser(connectionDetails, success -> {
+                    if (success) {
+                        Intent intent = new Intent(Connection.this, Contacts.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
+
+        TextView registerLink = findViewById(R.id.register_link);
+        registerLink.setOnClickListener(v -> {
+            Intent intent = new Intent(Connection.this, Registration.class);
+            startActivity(intent);
+        });
     }
 
     private boolean validateInputs() {

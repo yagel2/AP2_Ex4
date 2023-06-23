@@ -8,17 +8,17 @@ import com.example.ap2_ex4.R;
 import android.content.Intent;
 import android.widget.EditText;
 import android.app.AlertDialog;
+import android.widget.TextView;
 import android.widget.ImageButton;
 import com.example.ap2_ex4.Settings;
 import android.annotation.SuppressLint;
+import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.LocaleHelper;
 import com.example.ap2_ex4.messages.Messages;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import retrofit2.Call;
 
 public class Contacts extends AppCompatActivity implements ContactsAdapter.OnItemClickListener {
     private ContactDB db;
@@ -47,6 +47,8 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
     }
 
     private void initFields() {
+//        TextView usernameHeading = findViewById(R.id.usernameHeading);
+//        usernameHeading.setText(UserAPI.getInstance().getConnectedUser().getUsername());
         db = Room.databaseBuilder(getApplicationContext(),
                 ContactDB.class, "contactsDB").build();
         contactDao = db.contactDao();
@@ -74,11 +76,6 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
                 if (!name.isEmpty()) {
                     addContact(name);
                 }
-//                UserAPI.getInstance().addContact(name, new CallbackResponse() {
-//                    @Override
-//                    public void onResponse(boolean success) {
-//                    }
-//                });
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.show();
