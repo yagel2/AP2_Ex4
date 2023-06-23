@@ -10,10 +10,12 @@ public class Contact {
     private String serverId;
     private String lastTime;
     private final int profilePic;
+    private final String username;
     private final String displayName;
-
-    public Contact(String displayName, String lastTime, int profilePic) {
-        this.lastTime = lastTime;
+    public Contact(String username, String displayName, String serverId, int profilePic) {
+        this.lastTime = "";
+        this.serverId = serverId;
+        this.username = username;
         this.profilePic = profilePic;
         this.displayName = displayName;
     }
@@ -36,6 +38,10 @@ public class Contact {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public void setId(int id) {

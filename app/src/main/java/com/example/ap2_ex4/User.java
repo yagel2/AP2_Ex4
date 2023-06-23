@@ -1,9 +1,5 @@
 package com.example.ap2_ex4;
 
-import android.widget.EditText;
-import com.example.ap2_ex4.api.WebServicesApi;
-import retrofit2.Retrofit;
-
 public class User {
     private String username;
     private String password;
