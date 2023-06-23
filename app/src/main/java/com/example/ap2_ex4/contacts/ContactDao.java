@@ -11,8 +11,8 @@ import androidx.room.Update;
 public interface ContactDao {
     @Query("SELECT * FROM contact")
     List<Contact> getAllContacts();
-    @Query("SELECT * FROM contact WHERE id = :id")
-    Contact get(int id);
+    @Query("SELECT username FROM contact WHERE username = :username")
+    String findContactByUsername(String username);
     @Insert
     void insert(Contact... contacts);
     @Update

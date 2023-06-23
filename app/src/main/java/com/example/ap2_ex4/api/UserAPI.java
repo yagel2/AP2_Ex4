@@ -20,10 +20,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserAPI {
     private String token;
+    private boolean first;
     private Retrofit retrofit;
     private User connectedUser;
     private static UserAPI userAPI;
     private List<Chat> currentChats;
+    private LastAddedContact lastAdded;
     private final WebServicesApi webServiceAPI;
     private List<MessageFormatFromServer> currentMessages;
 
@@ -41,8 +43,19 @@ public class UserAPI {
         webServiceAPI = retrofit.create(WebServicesApi.class);
     }
 
+    public boolean isFirst() {
+        return first;
+    }
+    public void setFirst(boolean first) {
+        this.first = first;
+    }
+
     public User getConnectedUser() {
         return connectedUser;
+    }
+
+    public LastAddedContact getLastAdded() {
+        return lastAdded;
     }
 
     public static synchronized UserAPI getInstance() {
@@ -64,9 +77,11 @@ public class UserAPI {
                     callback.onResponse(true);
                 } else {
                     if (response.code() == 409) {
-                        Toast.makeText(MyApplication.context, "Username already exists", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyApplication.context,
+                                "Username already exists", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyApplication.context,
+                                "A server error occurred, please try again", Toast.LENGTH_LONG).show();
                     }
                     callback.onResponse(false);
                 }
@@ -85,10 +100,12 @@ public class UserAPI {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
+                    first = true;
                     connectedUser = response.body();
                     callbackConnection.onResponse(true);
                 } else {
-                    Toast.makeText(MyApplication.context, "A server error occurred, please try again", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyApplication.context,
+                            "A server error occurred, please try again", Toast.LENGTH_LONG).show();
                     callbackConnection.onResponse(false);
                 }
             }
@@ -103,16 +120,19 @@ public class UserAPI {
     public void loginUser(ConnectionDetails user, CallbackResponse callback) {
         Gson gson = new Gson();
         String jsonBody = gson.toJson(user);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"),
+                jsonBody);
         Call<String> call = this.webServiceAPI.loginUser(user);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     setToken(response.body());
+                    getUser(user.getUsername(), callback);
                     callback.onResponse(true);
                 } else {
-                    Toast.makeText(MyApplication.context, "Username or password doesn't match", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyApplication.context, "Username or password doesn't match",
+                            Toast.LENGTH_LONG).show();
                     callback.onResponse(false);
                 }
             }
@@ -129,7 +149,8 @@ public class UserAPI {
     }
 
     public void getChats(CallbackResponse callback) {
-        Call<List<Chat>> call = this.webServiceAPI.getChats("Bearer " + token, "application/json");
+        Call<List<Chat>> call = this.webServiceAPI.getChats("Bearer " + token,
+                "application/json");
         call.enqueue(new Callback<List<Chat>>() {
             @Override
             public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
@@ -137,7 +158,8 @@ public class UserAPI {
                     currentChats = response.body();
                     callback.onResponse(true);
                 } else {
-                    Toast.makeText(MyApplication.context, "A server error occurred while getting chats", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyApplication.context,
+                            "A server error occurred while getting chats", Toast.LENGTH_LONG).show();
                     callback.onResponse(false);
                 }
             }
@@ -155,17 +177,19 @@ public class UserAPI {
 
     public void addContact(String username, CallbackResponse callback) {
         TempContact tempContact = new TempContact(username);
-        Call<Void> call = this.webServiceAPI.addContact("Bearer " + token, tempContact);
-        call.enqueue(new Callback<Void>() {
+        Call<LastAddedContact> call = this.webServiceAPI.addContact("Bearer " + token, tempContact);
+        call.enqueue(new Callback<LastAddedContact>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<LastAddedContact> call, Response<LastAddedContact> response) {
                 if (response.isSuccessful()) {
+                    lastAdded = response.body();
                     callback.onResponse(true);
                 } else {
                     try {
                         // Parse the error body
                         String errorBody = response.errorBody().string();
-                        Toast.makeText(MyApplication.context, "Server Error: " + errorBody, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyApplication.context, "Server Error: " + errorBody,
+                                Toast.LENGTH_LONG).show();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -174,8 +198,9 @@ public class UserAPI {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(MyApplication.context, "Request Failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onFailure(Call<LastAddedContact> call, Throwable t) {
+                Toast.makeText(MyApplication.context, "Request Failure: " + t.getMessage(),
+                        Toast.LENGTH_LONG).show();
                 t.printStackTrace();
             }
         });
@@ -192,7 +217,8 @@ public class UserAPI {
                     try {
                         // Parse the error body
                         String errorBody = response.errorBody().string();
-                        Toast.makeText(MyApplication.context, "Server Error: " + errorBody, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyApplication.context, "Server Error: " + errorBody,
+                                Toast.LENGTH_LONG).show();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -209,19 +235,20 @@ public class UserAPI {
     }
 
     public void getMessages(String chatId, CallbackResponse callback) {
-        Call<List<MessageFormatFromServer>> call = this.webServiceAPI.getMessages("Bearer " + token, "application/json", chatId);
+        Call<List<MessageFormatFromServer>> call = this.webServiceAPI.getMessages(
+                "Bearer " + token, "application/json", chatId);
         call.enqueue(new Callback<List<MessageFormatFromServer>>() {
             @Override
-            public void onResponse(Call<List<MessageFormatFromServer>> call, Response<List<MessageFormatFromServer>> response) {
+            public void onResponse(Call<List<MessageFormatFromServer>> call,
+                                   Response<List<MessageFormatFromServer>> response) {
                 if (response.isSuccessful()) {
-//                    callback.onResponse(response.body());
                     currentMessages = response.body();
                     callback.onResponse(true);
 
                 } else {
-                    Toast.makeText(MyApplication.context, "A server error occurred while getting messages", Toast.LENGTH_LONG).show();
-//                    callback.onResponse(null);
                     currentMessages = null;
+                    Toast.makeText(MyApplication.context, "A server error occurred while getting messages",
+                            Toast.LENGTH_LONG).show();
                     callback.onResponse(false);
                 }
             }

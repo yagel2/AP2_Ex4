@@ -47,8 +47,7 @@ public class Connection extends AppCompatActivity {
             if (validateInputs()) {
                 ConnectionDetails connectionDetails = new ConnectionDetails(
                         usernameInput.getText().toString(), passwordInput.getText().toString());
-                UserAPI userAPI = UserAPI.getInstance();
-                userAPI.loginUser(connectionDetails, success -> {
+                UserAPI.getInstance().loginUser(connectionDetails, success -> {
                     if (success) {
                         Intent intent = new Intent(Connection.this, Contacts.class);
                         startActivity(intent);
