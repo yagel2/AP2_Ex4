@@ -11,6 +11,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.contacts.Contacts;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Connection extends AppCompatActivity {
@@ -49,6 +53,11 @@ public class Connection extends AppCompatActivity {
                         usernameInput.getText().toString(), passwordInput.getText().toString());
                 UserAPI.getInstance().loginUser(connectionDetails, success -> {
                     if (success) {
+                        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(
+                                Connection.this, instanceIdResult -> {
+                                    String newToken = instanceIdResult.getToken();
+                                }
+                        );
                         Intent intent = new Intent(Connection.this, Contacts.class);
                         startActivity(intent);
                     }

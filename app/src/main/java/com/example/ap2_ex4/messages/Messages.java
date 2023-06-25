@@ -4,7 +4,6 @@ import java.util.List;
 import android.os.Bundle;
 import androidx.room.Room;
 import java.util.ArrayList;
-
 import com.example.ap2_ex4.R;
 import android.content.Intent;
 import android.widget.EditText;
