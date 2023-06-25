@@ -29,7 +29,7 @@
             android:id="@+id/editTextTextUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blueInput"
+            android:background="?attr/input"
             android:ems="10"
             android:hint="@string/username"
             android:inputType="textPersonName"
@@ -40,7 +40,7 @@
             android:id="@+id/editTextTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blueInput"
+            android:background="?attr/input"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
@@ -51,7 +51,7 @@
             android:id="@+id/editTextTextConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blueInput"
+            android:background="?attr/input"
             android:ems="10"
             android:hint="@string/confirmPassword"
             android:inputType="textPassword"
@@ -62,7 +62,7 @@
             android:id="@+id/editTextDisplayName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blueInput"
+            android:background="?attr/input"
             android:ems="10"
             android:hint="@string/displayName"
             android:inputType="textPersonName"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:text="@string/select_image"
             android:layout_gravity="center"
-            app:backgroundTint="@color/blueInput"
+            app:backgroundTint="?attr/input"
             android:textColor="@color/black"
             android:layout_marginBottom="10dp"/>
 
@@ -86,7 +86,7 @@
             android:text="@string/registerButton"
             android:layout_gravity="center"
             android:textColor="@color/white"
-            app:backgroundTint="@color/buttonToNextPage"
+            app:backgroundTint="?attr/buttonToNextPage"
             android:layout_marginBottom="40dp"/>
 
         <TextView

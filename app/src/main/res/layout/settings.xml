@@ -4,9 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blueInput"
+    android:background="?attr/input"
     tools:context=".Settings">
-
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:background="@android:color/transparent"
+        android:importantForAccessibility="no"
+        android:minWidth="70dp"
+        android:minHeight="70dp"
+        android:src="@drawable/back_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ImageContrastCheck" />
     <LinearLayout
         android:id="@+id/centerContainer"
         android:layout_width="wrap_content"
@@ -15,10 +27,8 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.223">
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- Settings -->
         <TextView
@@ -27,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:text="@string/Settings"
-            android:textColor="@color/buttonToNextPage"
+            android:textColor="?attr/buttonToNextPage"
             android:textSize="35sp" />
 
         <!-- Day/Night Mode -->
@@ -39,7 +49,7 @@
             android:padding="10dp"
             android:text="@string/dayMode"
             android:textSize="20sp"
-            android:thumbTint="@color/buttonToNextPage"
+            android:thumbTint="?attr/buttonToNextPage"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 
@@ -52,7 +62,7 @@
             android:padding="10dp"
             android:text="@string/English"
             android:textSize="20sp"
-            android:thumbTint="@color/buttonToNextPage"
+            android:thumbTint="?attr/buttonToNextPage"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <!-- Theme button -->
@@ -60,7 +70,7 @@
             android:id="@+id/buttonThemeColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/buttonToNextPage"
+            android:backgroundTint="?attr/buttonToNextPage"
             android:padding="10dp"
             android:text="@string/Theme"
             android:textColor="@color/white"
@@ -77,7 +87,7 @@
             android:inputType="text"
             android:minHeight="48dp"
             android:padding="10dp"
-            android:textColorHint="@color/buttonToNextPage"
+            android:textColorHint="?attr/buttonToNextPage"
             android:textSize="20sp" />
 
         <!-- Save button -->
@@ -85,11 +95,11 @@
             android:id="@+id/buttonSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:backgroundTint="@color/buttonToNextPage"
+            android:backgroundTint="?attr/buttonToNextPage"
             android:padding="10dp"
             android:text="@string/Save"
             android:textColor="@color/white"
+            android:layout_marginBottom="40dp"
             android:textSize="20sp" />
 
         <!-- Logout button -->

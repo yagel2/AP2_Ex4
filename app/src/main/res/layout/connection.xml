@@ -29,7 +29,7 @@
             android:id="@+id/editTextTextUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blueInput"
+            android:background="?attr/input"
             android:ems="10"
             android:hint="@string/username"
             android:inputType="textPersonName"
@@ -40,7 +40,7 @@
             android:id="@+id/editTextTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blueInput"
+            android:background="?attr/input"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
@@ -54,7 +54,7 @@
             android:text="@string/connectButton"
             android:layout_gravity="center"
             android:textColor="@color/white"
-            app:backgroundTint="@color/buttonToNextPage"
+            app:backgroundTint="?attr/buttonToNextPage"
             android:layout_marginBottom="50dp"/>
 
         <TextView

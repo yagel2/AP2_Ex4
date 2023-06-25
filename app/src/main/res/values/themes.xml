@@ -2,7 +2,39 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.AP2_Ex4" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <!-- Theme 1 basic-->
+    <style name="Theme.AP2_Ex4.Theme1" parent="Base.Theme.AP2_Ex4">
+        <item name="colorPrimary">@color/theme1Input</item>
+        <item name="colorPrimaryDark">@color/contact1</item>
+        <item name="colorAccent">@color/theme1Input</item>
+        <item name="android:windowBackground">@color/theme1Input</item>
+        <item name="input">@color/theme1Input</item>
+        <item name="contact">@color/contact1</item>
+        <item name="buttonToNextPage">@color/theme1ButtonToNextPage</item>
+    </style>
+
+    <!-- Theme 2 -->
+    <style name="Theme.AP2_Ex4.Theme2" parent="Base.Theme.AP2_Ex4">
+        <item name="colorPrimary">@color/theme2Input</item>
+        <item name="colorPrimaryDark">@color/contact2</item>
+        <item name="colorAccent">@color/theme2Input</item>
+        <item name="android:windowBackground">@color/theme2Input</item>
+        <item name="input">@color/theme2Input</item>
+        <item name="contact">@color/contact2</item>
+        <item name="buttonToNextPage">@color/theme2ButtonToNextPage</item>
+    </style>
+
+    <!-- Theme 3 -->
+    <style name="Theme.AP2_Ex4.Theme3" parent="Base.Theme.AP2_Ex4">
+        <item name="colorPrimary">@color/theme3Input</item>
+        <item name="colorPrimaryDark">@color/contact3</item>
+        <item name="colorAccent">@color/theme3Input</item>
+        <item name="android:windowBackground">@color/theme3Input</item>
+        <item name="input">@color/theme3Input</item>
+        <item name="contact">@color/contact3</item>
+        <item name="buttonToNextPage">@color/theme3ButtonToNextPage</item>
     </style>
 
     <style name="Theme.AP2_Ex4" parent="Base.Theme.AP2_Ex4" />
