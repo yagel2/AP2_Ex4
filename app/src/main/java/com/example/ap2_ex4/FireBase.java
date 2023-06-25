@@ -1,8 +1,6 @@
 package com.example.ap2_ex4;
 
 import androidx.annotation.NonNull;
-
-import com.example.ap2_ex4.contacts.Contacts;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.messaging.FirebaseMessagingService;
 

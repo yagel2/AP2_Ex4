@@ -2,6 +2,7 @@ package com.example.ap2_ex4.messages;
 
 import java.util.Locale;
 import java.util.Calendar;
+import java.util.TimeZone;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -14,19 +15,8 @@ public class Message {
     private String sender;
     private String content;
     private String created;
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public int getType() {
-        return type;
-    }
-
     @Ignore
     private int type; // 0 for sender, 1 for receiver
-
-
 
     public Message(String sender, String content, String created) {
         this.id = 0;
@@ -34,6 +24,7 @@ public class Message {
         this.content = content;
         if (created == null) {
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            sdf.setTimeZone(TimeZone.getTimeZone("Israel"));
             this.created = sdf.format(Calendar.getInstance().getTime());
         } else {
             this.created = created;
@@ -43,6 +34,11 @@ public class Message {
     public int getId() {
         return this.id;
     }
+
+    public int getType() {
+        return type;
+    }
+
     public String getSender() {
         return this.sender;
     }
@@ -58,12 +54,19 @@ public class Message {
     public void setId(int id) {
         this.id = id;
     }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public void setSender(String sender) {
         this.sender = sender;
     }
+
     public void setContent(String content) {
         this.content = content;
     }
+
     public void setCreated(String created) {
         this.created = created;
     }

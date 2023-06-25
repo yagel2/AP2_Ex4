@@ -14,7 +14,6 @@ import android.annotation.SuppressLint;
 import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.LocaleHelper;
 import com.example.ap2_ex4.contacts.Contact;
-import com.example.ap2_ex4.contacts.ContactDB;
 import com.example.ap2_ex4.contacts.Contacts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,8 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 public class Messages extends AppCompatActivity implements MessageAdapter.OnItemClickListener {
     private UserAPI userApi;
     private static MessageDB db;
-    private Contact currentContact;
     private String currentLanguage;
+    private Contact currentContact;
     private MessageAdapter messageAdapter;
     private RecyclerView messagesRecyclerView;
 
@@ -108,14 +107,13 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
                 String lastTime = "";
                 List<MessageFromServer> messages = userApi.getCurrentMessages();
                 for (int i = messages.size() - 1; i >= 0 ; i--) {
-                    String sender;
+                    String sender = "sender";
                     int type;
-                    if (messages.get(i).getSender().getUsername().equals(currentContact.getUsername())) {
-                        sender = "receiver";
-                        type = 1;
-                    } else {
-                        sender = "sender";
+                    if (!messages.get(i).getSender().getUsername().equals(currentContact.getUsername())) {
                         type = 0;
+                    } else {
+                        type = 1;
+                        sender = "receiver";
                     }
                     lastTime = extractTime(messages.get(i).getCreated());
                     Message message = new Message(sender, messages.get(i).getContent(), lastTime);
@@ -123,8 +121,8 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
                     messageAdapter.addMessage(message);
                     messageAdapter.notifyDataSetChanged();
                 }
-                messagesRecyclerView.scrollToPosition(messageAdapter.getItemCount() - 1);
                 currentContact.setLastTime(lastTime);
+                messagesRecyclerView.scrollToPosition(messageAdapter.getItemCount() - 1);
             }
         })).start();
     }
@@ -135,9 +133,9 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
             if (success) {
                 Message newMessage = new Message("sender", message, null);
                 messageAdapter.addMessage(newMessage);
+                currentContact.setLastTime(newMessage.getCreated());
                 messageAdapter.notifyDataSetChanged();
                 messagesRecyclerView.scrollToPosition(messageAdapter.getItemCount() - 1);
-                currentContact.setLastTime(newMessage.getCreated());
             }
         });
     }

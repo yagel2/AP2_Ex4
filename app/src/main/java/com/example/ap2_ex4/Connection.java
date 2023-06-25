@@ -11,11 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.contacts.Contacts;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class Connection extends AppCompatActivity {
     private String currentLanguage;
@@ -24,8 +21,6 @@ public class Connection extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        deleteDatabase("contactsDB");
-//        deleteDatabase("messagesDB");
         super.onCreate(savedInstanceState);
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);
@@ -45,8 +40,6 @@ public class Connection extends AppCompatActivity {
     private void initFields() {
         usernameInput = findViewById(R.id.editTextTextUsername);
         passwordInput = findViewById(R.id.editTextTextPassword);
-//        deleteDatabase("contactsDB");
-//        deleteDatabase("messagesDB");
     }
 
     private void handleConnection() {

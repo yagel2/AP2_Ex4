@@ -42,6 +42,7 @@ public class UserAPI {
                 .build();
         webServiceAPI = retrofit.create(WebServicesApi.class);
     }
+
     public void setRetrofit(String BaseUrl) {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BaseUrl + "/api/")
@@ -49,6 +50,7 @@ public class UserAPI {
                 .build();
         webServiceAPI = retrofit.create(WebServicesApi.class);
     }
+
     public boolean isFirstContacts() {
         return firstContacts;
     }
@@ -289,7 +291,6 @@ public class UserAPI {
                     callback.onResponse(true);
                 } else {
                     try {
-                        // Parse the error body
                         String errorBody = response.errorBody().string();
                         Toast.makeText(MyApplication.context, "Server Error: " + errorBody, Toast.LENGTH_LONG).show();
                     } catch (IOException e) {

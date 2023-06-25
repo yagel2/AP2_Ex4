@@ -99,10 +99,14 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         new Thread(() -> userApi.getChats(success -> {
             if (success) {
                 List<Chat> chats = userApi.getAllChatsAfterServer();
-                for (int i = 0; i < chats.size(); i ++) {
-                    Contact contact = new Contact(chats.get(i).getUser().getUsername(),
-                            chats.get(i).getUser().getDisplayName(),
-                            chats.get(i).getId(), R.drawable.person_circle);
+                for (Chat chat : chats) {
+                    Contact contact = new Contact(chat.getUser().getUsername(),
+                            chat.getUser().getDisplayName(), chat.getId(), R.drawable.person_circle);
+                    if (chat.getLastMessage() != null) {
+                        contact.setLastTime(Messages.extractTime(chat.getLastMessage().getCreated()));
+                    } else {
+                        contact.setLastTime("");
+                    }
                     contactsAdapter.addContact(contact);
                     contactsAdapter.notifyDataSetChanged();
                 }

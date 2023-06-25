@@ -14,6 +14,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     private final MessageDB db;
     private List<Message> messages;
     private final OnItemClickListener listener;
+
     public MessageAdapter(List<Message> messages, OnItemClickListener listener, MessageDB db) {
         this.db = db;
         this.listener = listener;
@@ -32,24 +33,23 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @NonNull
     @Override
     public MessageAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView;
-
-        if (viewType == 0) { // Sender view
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        if (viewType == 0) {
             itemView = inflater.inflate(R.layout.message_sender, parent, false);
-        } else { // Receiver view
+        } else {
             itemView = inflater.inflate(R.layout.message_receiver, parent, false);
         }
-
         return new ViewHolder(itemView);
     }
+
     @Override
     public int getItemViewType(int position) {
         Message message = messages.get(position);
-        if (message.getSender().equals("sender")) {
-            return 0; // Sender view type
+        if (message.getSender().charAt(0) == 's') {
+            return 0;
         } else {
-            return 1; // Receiver view type
+            return 1;
         }
     }
 

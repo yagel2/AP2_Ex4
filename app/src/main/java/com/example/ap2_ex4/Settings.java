@@ -1,20 +1,18 @@
 package com.example.ap2_ex4;
-import android.content.Intent;
+
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.widget.Switch;
 import android.widget.Button;
+import android.content.Intent;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Switch;
-import android.content.res.Configuration;
 import android.annotation.SuppressLint;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import com.example.ap2_ex4.api.UserAPI;
+import android.content.res.Configuration;
 import com.example.ap2_ex4.contacts.Contacts;
 import com.example.ap2_ex4.messages.Messages;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 public class Settings extends AppCompatActivity {
     private EditText editServer;
@@ -56,26 +54,26 @@ public class Settings extends AppCompatActivity {
         buttonLogout.setOnClickListener(v -> {
             if (Contacts.getDb() != null) {
                 deleteDatabase("contactsDB");
+                UserAPI.getInstance().setFirstContacts(true);
             }
             if (Messages.getDb() != null) {
                 deleteDatabase("messagesDB");
+                UserAPI.getInstance().setFirstMessages(true);
             }
-            Intent intent = new Intent(Settings.this, Connection.class);
-            startActivity(intent);
+            UserAPI.getInstance().setToken(null);
+            startActivity(new Intent(Settings.this, Connection.class));
             finish();
         });
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Settings.this, Contacts.class);
-            startActivity(intent);
+            startActivity(new Intent(Settings.this, Contacts.class));
             finish();
         });
 
         editServer = findViewById(R.id.editServer);
         Button buttonSave = findViewById(R.id.buttonSave);
         buttonSave.setOnClickListener(v -> {
-            String serverText = editServer.getText().toString();
-            UserAPI.getInstance().setRetrofit(serverText);
+            UserAPI.getInstance().setRetrofit(editServer.getText().toString());
         });
     }
 
