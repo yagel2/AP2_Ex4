@@ -2,10 +2,10 @@ package com.example.ap2_ex4.api;
 
 public class Chat {
     private String id;
-    private UserFromServer user;
-    private MessageFormatFromServer lastMessage;
+    private final UserFromServer user;
+    private final MessageFromServer lastMessage;
 
-    public Chat(UserFromServer user, MessageFormatFromServer lastMessage, String id) {
+    public Chat(UserFromServer user, MessageFromServer lastMessage, String id) {
         this.id = id;
         this.user = user;
         this.lastMessage = lastMessage;
@@ -23,15 +23,7 @@ public class Chat {
         return user;
     }
 
-    public void setUser(UserFromServer user) {
-        this.user = user;
-    }
-
-    public MessageFormatFromServer getLastMessage() {
+    public MessageFromServer getLastMessage() {
         return lastMessage;
-    }
-
-    public void setLastMessage(MessageFormatFromServer lastMessage) {
-        this.lastMessage = lastMessage;
     }
 }

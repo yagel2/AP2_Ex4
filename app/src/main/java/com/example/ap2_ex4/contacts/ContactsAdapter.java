@@ -52,24 +52,20 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     public void addContact(Contact newContact) {
         new Thread(() -> {
             db.contactDao().insert(newContact);
-            contacts.add(newContact);
-            notifyItemInserted(contacts.size() - 1);
         }).start();
+        contacts.add(newContact);
+        notifyDataSetChanged();
+        notifyItemInserted(contacts.size() - 1);
     }
 
     @SuppressLint("NotifyDataSetChanged")
     public void deleteContact(Contact contact) {
         new Thread(() -> {
             db.contactDao().delete(contact);
-            contacts.remove(contact);
-            notifyItemRemoved(contacts.indexOf(contact));
         }).start();
-
-//        new Thread(() -> {
-//            new Thread(() -> db.contactDao().delete(contact)).start();
-//            contacts.remove(contact);
-//            notifyItemRemoved(contacts.indexOf(contact));
-//        }).start();
+        contacts.remove(contact);
+        notifyDataSetChanged();
+        notifyItemRemoved(contacts.indexOf(contact));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

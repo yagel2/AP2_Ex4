@@ -41,7 +41,7 @@ public interface WebServicesApi {
                           @Path("id") String id);
 
     @GET("Chats/{id}/Messages")
-    Call<List<MessageFormatFromServer>> getMessages(
+    Call<List<MessageFromServer>> getMessages(
             @Header("authorization") String authorization,
             @Header("accept") String accept,
             @Path("id") String id);
