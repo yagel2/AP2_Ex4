@@ -103,13 +103,17 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
                 List<MessageFromServer> messages = userApi.getCurrentMessages();
                 for (int i = messages.size() - 1; i >= 0 ; i--) {
                     String sender;
+                    int type;
                     if (messages.get(i).getSender().getUsername().equals(currentContact.getUsername())) {
                         sender = "receiver";
+                        type = 1;
                     } else {
                         sender = "sender";
+                        type = 0;
                     }
                     lastTime = extractTime(messages.get(i).getCreated());
                     Message message = new Message(sender, messages.get(i).getContent(), lastTime);
+                    message.setType(type);
                     messageAdapter.addMessage(message);
                     messageAdapter.notifyDataSetChanged();
                 }

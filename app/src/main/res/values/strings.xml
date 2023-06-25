@@ -35,7 +35,6 @@
     <string name="tempName">u</string>
     <string name="hour" translatable="false">00:00</string>
     <string name="BaseUrl" translatable="false">http://10.0.2.2:12345/api/</string>
-    <string name="phoneUrl" translatable="false">http://172.25.80.1:12345/api/</string>
     <string name="Logout" translatable="false">Logout</string>
 
 </resources>
