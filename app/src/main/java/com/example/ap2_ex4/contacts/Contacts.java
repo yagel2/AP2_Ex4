@@ -25,8 +25,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Contacts extends AppCompatActivity implements ContactsAdapter.OnItemClickListener {
-    private ContactDB db;
     private UserAPI userApi;
+    private static ContactDB db;
     private String currentLanguage;
     private static Contact currentContact;
     private ContactsAdapter contactsAdapter;
@@ -53,12 +53,14 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         this.userApi = UserAPI.getInstance();
         TextView usernameHeading = findViewById(R.id.usernameHeading);
         usernameHeading.setText(this.userApi.getConnectedUser().getUsername());
-        this.db = Room.databaseBuilder(getApplicationContext(),
-                ContactDB.class, "contactsDB").allowMainThreadQueries().build();
+        if (db == null) {
+            db = Room.databaseBuilder(getApplicationContext(),
+                    ContactDB.class, "contactsDB").allowMainThreadQueries().build();
+        }
         if (this.userApi.isFirstContacts()) {
             this.userApi.setFirstMessages(true);
             this.userApi.setFirstContacts(false);
-            this.db.contactDao().deleteAllContacts();
+            db.contactDao().deleteAllContacts();
         }
         contactsAdapter = new ContactsAdapter(new ArrayList<>(), this, db);
         contactsRecyclerView = findViewById(R.id.contacts_recycler_view);
@@ -108,13 +110,17 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         })).start();
     }
 
+    public static ContactDB getDb() {
+        return db;
+    }
+
     public static Contact getCurrentContact() {
         return currentContact;
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private void addContact(String username) {
-        if (this.db.contactDao().findContactByUsername(username) != null) {
+        if (db.contactDao().findContactByUsername(username) != null) {
             Toast.makeText(MyApplication.context,
                     "The user already exists in your contact list",
                     Toast.LENGTH_LONG).show();
