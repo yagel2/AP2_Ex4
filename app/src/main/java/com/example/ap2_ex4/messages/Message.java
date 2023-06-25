@@ -3,6 +3,7 @@ package com.example.ap2_ex4.messages;
 import java.util.Locale;
 import java.util.Calendar;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import java.text.SimpleDateFormat;
 
@@ -13,6 +14,19 @@ public class Message {
     private String sender;
     private String content;
     private String created;
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    @Ignore
+    private int type; // 0 for sender, 1 for receiver
+
+
 
     public Message(String sender, String content, String created) {
         this.id = 0;

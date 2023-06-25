@@ -27,23 +27,28 @@ public class UserAPI {
     private static UserAPI userAPI;
     private List<Chat> currentChats;
     private LastAddedContact lastAdded;
-    private final WebServicesApi webServiceAPI;
+    private WebServicesApi webServiceAPI;
     private List<MessageFromServer> currentMessages;
 
     private UserAPI() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .build();
+//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        OkHttpClient client = new OkHttpClient.Builder()
+//                .addInterceptor(interceptor)
+//                .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
                 .build();
         webServiceAPI = retrofit.create(WebServicesApi.class);
     }
-
+    public void setRetrofit(String BaseUrl) {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BaseUrl + "/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        webServiceAPI = retrofit.create(WebServicesApi.class);
+    }
     public boolean isFirstContacts() {
         return firstContacts;
     }

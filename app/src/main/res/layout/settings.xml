@@ -6,7 +6,19 @@
     android:layout_height="match_parent"
     android:background="@color/blueInput"
     tools:context=".Settings">
-
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:background="@android:color/transparent"
+        android:importantForAccessibility="no"
+        android:minWidth="70dp"
+        android:minHeight="70dp"
+        android:src="@drawable/back_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ImageContrastCheck" />
     <LinearLayout
         android:id="@+id/centerContainer"
         android:layout_width="wrap_content"
@@ -52,24 +64,12 @@
             android:textSize="20sp"
             android:thumbTint="@color/buttonToNextPage"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        <!-- Theme button -->
-        <Button
-            android:id="@+id/buttonThemeColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/buttonToNextPage"
-            android:padding="10dp"
-            android:text="@string/Theme"
-            android:textColor="@color/blueInput"
-            android:textSize="20sp" />
-
         <!-- Display name -->
         <EditText
             android:id="@+id/editServer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="15dp"
             android:autofillHints="display name"
             android:hint="@string/switchServer"
             android:inputType="text"
@@ -86,8 +86,21 @@
             android:backgroundTint="@color/buttonToNextPage"
             android:padding="10dp"
             android:text="@string/Save"
-            android:textColor="@color/blueInput"
+            android:textColor="@color/white"
+            android:layout_marginBottom="40dp"
             android:textSize="20sp" />
+
+        <!-- Logout button -->
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#EA2C2C"
+            android:padding="10dp"
+            android:text="@string/Logout"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
 
     </LinearLayout>
 

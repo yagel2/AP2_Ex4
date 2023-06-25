@@ -3,7 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="green">#39BC3E</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="blueInput">#A2CDED</color>
-    <color name="buttonToNextPage">#27699A</color>
-    <color name="contact">#0A5893</color>
+    <color name="blueInput">#2F3453</color>
+    <color name="buttonToNextPage">#051725</color>
+    <color name="contact">#18204C</color>
 </resources>
