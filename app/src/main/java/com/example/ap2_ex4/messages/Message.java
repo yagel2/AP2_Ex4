@@ -14,12 +14,16 @@ public class Message {
     private String content;
     private String created;
 
-    public Message(String sender, String content) {
+    public Message(String sender, String content, String created) {
         this.id = 0;
         this.sender = sender;
         this.content = content;
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        this.created = sdf.format(Calendar.getInstance().getTime());
+        if (created == null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            this.created = sdf.format(Calendar.getInstance().getTime());
+        } else {
+            this.created = created;
+        }
     }
 
     public int getId() {

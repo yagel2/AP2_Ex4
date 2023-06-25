@@ -11,6 +11,8 @@ import androidx.room.Update;
 public interface ContactDao {
     @Query("SELECT * FROM contact")
     List<Contact> getAllContacts();
+    @Query("DELETE FROM contact")
+    void deleteAllContacts();
     @Query("SELECT username FROM contact WHERE username = :username")
     String findContactByUsername(String username);
     @Insert
