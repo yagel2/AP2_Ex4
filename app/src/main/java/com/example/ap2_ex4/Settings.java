@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.contacts.Contacts;
+import com.example.ap2_ex4.messages.Messages;
+
 public class Settings extends AppCompatActivity {
     private EditText editServer;
 
@@ -52,6 +54,12 @@ public class Settings extends AppCompatActivity {
         });
         Button buttonLogout = findViewById(R.id.buttonLogout);
         buttonLogout.setOnClickListener(v -> {
+            if (Contacts.getDb() != null) {
+                deleteDatabase("contactsDB");
+            }
+            if (Messages.getDb() != null) {
+                deleteDatabase("messagesDB");
+            }
             Intent intent = new Intent(Settings.this, Connection.class);
             startActivity(intent);
             finish();
@@ -69,24 +77,6 @@ public class Settings extends AppCompatActivity {
             String serverText = editServer.getText().toString();
             UserAPI.getInstance().setRetrofit(serverText);
         });
-
-//        editServer.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                // Not needed for this implementation
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                // Not needed for this implementation
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                String serverText = s.toString();
-//                UserAPI.getInstance().setRetrofit(serverText);
-//            }
-//        });
     }
 
     private void updateLanguage() {
