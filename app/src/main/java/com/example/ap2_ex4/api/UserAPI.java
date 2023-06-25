@@ -20,14 +20,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserAPI {
     private String token;
-    private boolean first;
     private Retrofit retrofit;
     private User connectedUser;
+    private boolean firstContacts;
+    private boolean firstMessages;
     private static UserAPI userAPI;
     private List<Chat> currentChats;
     private LastAddedContact lastAdded;
     private final WebServicesApi webServiceAPI;
-    private List<MessageFormatFromServer> currentMessages;
+    private List<MessageFromServer> currentMessages;
 
     private UserAPI() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -43,11 +44,20 @@ public class UserAPI {
         webServiceAPI = retrofit.create(WebServicesApi.class);
     }
 
-    public boolean isFirst() {
-        return first;
+    public boolean isFirstContacts() {
+        return firstContacts;
     }
-    public void setFirst(boolean first) {
-        this.first = first;
+
+    public boolean isFirstMessages() {
+        return firstMessages;
+    }
+
+    public void setFirstContacts(boolean firstContacts) {
+        this.firstContacts = firstContacts;
+    }
+
+    public void setFirstMessages(boolean firstMessages) {
+        this.firstMessages = firstMessages;
     }
 
     public User getConnectedUser() {
@@ -100,7 +110,7 @@ public class UserAPI {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    first = true;
+                    firstContacts = true;
                     connectedUser = response.body();
                     callbackConnection.onResponse(true);
                 } else {
@@ -235,12 +245,12 @@ public class UserAPI {
     }
 
     public void getMessages(String chatId, CallbackResponse callback) {
-        Call<List<MessageFormatFromServer>> call = this.webServiceAPI.getMessages(
+        Call<List<MessageFromServer>> call = this.webServiceAPI.getMessages(
                 "Bearer " + token, "application/json", chatId);
-        call.enqueue(new Callback<List<MessageFormatFromServer>>() {
+        call.enqueue(new Callback<List<MessageFromServer>>() {
             @Override
-            public void onResponse(Call<List<MessageFormatFromServer>> call,
-                                   Response<List<MessageFormatFromServer>> response) {
+            public void onResponse(Call<List<MessageFromServer>> call,
+                                   Response<List<MessageFromServer>> response) {
                 if (response.isSuccessful()) {
                     currentMessages = response.body();
                     callback.onResponse(true);
@@ -254,13 +264,13 @@ public class UserAPI {
             }
 
             @Override
-            public void onFailure(Call<List<MessageFormatFromServer>> call, Throwable t) {
+            public void onFailure(Call<List<MessageFromServer>> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
 
-    public List<MessageFormatFromServer> getCurrentMessages() {
+    public List<MessageFromServer> getCurrentMessages() {
         return currentMessages;
     }
 

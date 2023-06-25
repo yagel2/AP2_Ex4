@@ -1,41 +1,27 @@
 package com.example.ap2_ex4.contacts;
 
 import java.util.List;
-
 import android.os.Bundle;
-
 import androidx.room.Room;
-
 import java.util.ArrayList;
-
-import com.example.ap2_ex4.Connection;
-import com.example.ap2_ex4.MyApplication;
+import android.widget.Toast;
 import com.example.ap2_ex4.R;
-
 import android.content.Intent;
 import android.widget.EditText;
 import android.app.AlertDialog;
 import android.widget.TextView;
 import android.widget.ImageButton;
-
-import com.example.ap2_ex4.Registration;
 import com.example.ap2_ex4.Settings;
-
-import android.annotation.SuppressLint;
-import android.widget.Toast;
-
-import com.example.ap2_ex4.User;
-import com.example.ap2_ex4.api.CallbackResponse;
 import com.example.ap2_ex4.api.Chat;
-import com.example.ap2_ex4.api.LastAddedContact;
 import com.example.ap2_ex4.api.UserAPI;
+import android.annotation.SuppressLint;
 import com.example.ap2_ex4.LocaleHelper;
+import com.example.ap2_ex4.MyApplication;
 import com.example.ap2_ex4.messages.Messages;
-
+import com.example.ap2_ex4.api.LastAddedContact;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Contacts extends AppCompatActivity implements ContactsAdapter.OnItemClickListener {
@@ -52,9 +38,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);
         setContentView(R.layout.contacts);
-        initFields();
-        handleContacts();
-        loadContacts();
+        init();
     }
 
     @Override
@@ -65,20 +49,23 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         }
     }
 
-    private void initFields() {
-        if (UserAPI.getInstance().isFirst()) {
-            deleteDatabase("contactsDB");
-            UserAPI.getInstance().setFirst(false);
-        }
+    private void init() {
         this.userApi = UserAPI.getInstance();
         TextView usernameHeading = findViewById(R.id.usernameHeading);
         usernameHeading.setText(this.userApi.getConnectedUser().getUsername());
-        db = Room.databaseBuilder(getApplicationContext(),
+        this.db = Room.databaseBuilder(getApplicationContext(),
                 ContactDB.class, "contactsDB").allowMainThreadQueries().build();
+        if (this.userApi.isFirstContacts()) {
+            this.userApi.setFirstMessages(true);
+            this.userApi.setFirstContacts(false);
+            this.db.contactDao().deleteAllContacts();
+        }
         contactsAdapter = new ContactsAdapter(new ArrayList<>(), this, db);
         contactsRecyclerView = findViewById(R.id.contacts_recycler_view);
         contactsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         contactsRecyclerView.setAdapter(contactsAdapter);
+        getChats();
+        handleContacts();
     }
 
     private void handleContacts() {
@@ -106,15 +93,19 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void loadContacts() {
-        new Thread(() -> {
-            List<Contact> contacts = db.contactDao().getAllContacts();
-            runOnUiThread(() -> {
-                contactsAdapter.getContacts().clear();
-                contactsAdapter.setContacts(contacts);
-                contactsAdapter.notifyDataSetChanged();
-            });
-        }).start();
+    private void getChats() {
+        new Thread(() -> userApi.getChats(success -> {
+            if (success) {
+                List<Chat> chats = userApi.getAllChatsAfterServer();
+                for (int i = 0; i < chats.size(); i ++) {
+                    Contact contact = new Contact(chats.get(i).getUser().getUsername(),
+                            chats.get(i).getUser().getDisplayName(),
+                            chats.get(i).getId(), R.drawable.person_circle);
+                    contactsAdapter.addContact(contact);
+                    contactsAdapter.notifyDataSetChanged();
+                }
+            }
+        })).start();
     }
 
     public static Contact getCurrentContact() {
@@ -123,7 +114,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
 
     @SuppressLint("NotifyDataSetChanged")
     private void addContact(String username) {
-        if (db.contactDao().findContactByUsername(username) != null) {
+        if (this.db.contactDao().findContactByUsername(username) != null) {
             Toast.makeText(MyApplication.context,
                     "The user already exists in your contact list",
                     Toast.LENGTH_LONG).show();
@@ -136,26 +127,15 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
                         contactDetails.getContact().getDisplayName(),
                         contactDetails.getId(), R.drawable.person_circle);
                 contactsAdapter.addContact(newContact);
-                contactsAdapter.notifyDataSetChanged();
             }
         });
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private void deleteContact(Contact contact) {
-//        runOnUiThread(() -> {
-//            userApi.deleteContact(contact.getServerId(), success -> {
-//                if (success) {
-//                    contactsAdapter.deleteContact(contact);
-//                    contactsAdapter.notifyDataSetChanged();
-//                }
-//            });
-//        });
-
         userApi.deleteContact(contact.getServerId(), success -> {
             if (success) {
                 contactsAdapter.deleteContact(contact);
-                contactsAdapter.notifyDataSetChanged();
             }
         });
     }

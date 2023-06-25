@@ -56,9 +56,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void addMessage(Message newMessage) {
         new Thread(() -> {
             db.messageDao().insert(newMessage);
-            messages.add(newMessage);
-            notifyItemInserted(messages.size() - 1);
         }).start();
+        messages.add(newMessage);
+        notifyDataSetChanged();
+        notifyItemInserted(messages.size() - 1);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
