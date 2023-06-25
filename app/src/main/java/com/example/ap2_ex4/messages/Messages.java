@@ -4,7 +4,6 @@ import java.util.List;
 import android.os.Bundle;
 import androidx.room.Room;
 import java.util.ArrayList;
-
 import com.example.ap2_ex4.R;
 import android.content.Intent;
 import android.widget.EditText;
@@ -15,6 +14,7 @@ import android.annotation.SuppressLint;
 import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.LocaleHelper;
 import com.example.ap2_ex4.contacts.Contact;
+import com.example.ap2_ex4.contacts.ContactDB;
 import com.example.ap2_ex4.contacts.Contacts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,8 +22,8 @@ import com.example.ap2_ex4.api.MessageFromServer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class Messages extends AppCompatActivity implements MessageAdapter.OnItemClickListener {
-    private MessageDB db;
     private UserAPI userApi;
+    private static MessageDB db;
     private Contact currentContact;
     private String currentLanguage;
     private MessageAdapter messageAdapter;
@@ -49,11 +49,13 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
     private void init() {
         this.userApi = UserAPI.getInstance();
         currentContact = Contacts.getCurrentContact();
-        db = Room.databaseBuilder(getApplicationContext(),
-                MessageDB.class, "messagesDB").allowMainThreadQueries().build();
+        if (db == null) {
+            db = Room.databaseBuilder(getApplicationContext(),
+                    MessageDB.class, "messagesDB").allowMainThreadQueries().build();
+        }
         if (this.userApi.isFirstMessages()) {
             this.userApi.setFirstMessages(false);
-            this.db.messageDao().deleteAllMessages();
+            db.messageDao().deleteAllMessages();
         }
         messageAdapter = new MessageAdapter(new ArrayList<>(), this, db);
         messagesRecyclerView = findViewById(R.id.messages_recycler_view);
@@ -89,6 +91,10 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
                 input.setText("");
             }
         });
+    }
+
+    public static MessageDB getDb() {
+        return db;
     }
 
     public static String extractTime(String date) {
