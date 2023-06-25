@@ -6,4 +6,5 @@
     <color name="blueInput">#A2CDED</color>
     <color name="buttonToNextPage">#27699A</color>
     <color name="contact">#0E568C</color>
+    <color name="buttonLogout">#FF0000</color> <!-- This is red color -->
 </resources>

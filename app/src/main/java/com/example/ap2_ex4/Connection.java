@@ -39,6 +39,8 @@ public class Connection extends AppCompatActivity {
     private void initFields() {
         usernameInput = findViewById(R.id.editTextTextUsername);
         passwordInput = findViewById(R.id.editTextTextPassword);
+//        deleteDatabase("contactsDB");
+//        deleteDatabase("messagesDB");
     }
 
     private void handleConnection() {

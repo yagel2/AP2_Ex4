@@ -15,8 +15,10 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.223">
 
         <!-- Settings -->
         <TextView
@@ -61,7 +63,7 @@
             android:backgroundTint="@color/buttonToNextPage"
             android:padding="10dp"
             android:text="@string/Theme"
-            android:textColor="@color/blueInput"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <!-- Display name -->
@@ -69,7 +71,7 @@
             android:id="@+id/editServer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="15dp"
             android:autofillHints="display name"
             android:hint="@string/switchServer"
             android:inputType="text"
@@ -83,11 +85,24 @@
             android:id="@+id/buttonSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
             android:backgroundTint="@color/buttonToNextPage"
             android:padding="10dp"
             android:text="@string/Save"
-            android:textColor="@color/blueInput"
+            android:textColor="@color/white"
             android:textSize="20sp" />
+
+        <!-- Logout button -->
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#EA2C2C"
+            android:padding="10dp"
+            android:text="@string/Logout"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
 
     </LinearLayout>
 
