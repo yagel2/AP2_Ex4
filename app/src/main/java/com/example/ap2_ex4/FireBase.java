@@ -13,7 +13,6 @@ public class FireBase extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Contacts.getDb();
     }
 
     @Override
