@@ -20,6 +20,8 @@ public class Connection extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        deleteDatabase("contactsDB");
+//        deleteDatabase("messagesDB");
         super.onCreate(savedInstanceState);
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);

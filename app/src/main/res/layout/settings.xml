@@ -64,18 +64,6 @@
             android:textSize="20sp"
             android:thumbTint="@color/buttonToNextPage"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        <!-- Theme button -->
-        <Button
-            android:id="@+id/buttonThemeColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/buttonToNextPage"
-            android:padding="10dp"
-            android:text="@string/Theme"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
         <!-- Display name -->
         <EditText
             android:id="@+id/editServer"
