@@ -1,35 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <color name="black">#FF000000</color>
     <color name="green">#39BC3E</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="theme1Input">#A2CDED</color>
-    <color name="theme2Input">#886CBA</color>
-    <color name="theme3Input">#8EDA91</color>
-
-    <color name="theme1ButtonToNextPage">#27699A</color>
-    <color name="theme2ButtonToNextPage">#4F3480</color>
-    <color name="theme3ButtonToNextPage">#14AC1A</color>
-
-    <color name="contact1">#0E568C</color>
-    <color name="contact2">#8956E3</color>
-    <color name="contact3">#0C550F</color>
-
-    <color name="theme1Background">#FFCDD2</color> <!-- Background color for Theme 1 -->
-    <color name="theme2Background">#C8E6C9</color> <!-- Background color for Theme 2 -->
-    <color name="theme3Background">#BBDEFB</color> <!-- Background color for Theme 3 -->
-    <color name="theme1Primary">#FF5722</color>
-    <color name="theme1PrimaryDark">#E64A19</color>
-    <color name="theme1Accent">#FFCCBC</color>
-
-    <color name="theme2Primary">#FFEB3B</color>
-    <color name="theme2PrimaryDark">#FDD835</color>
-    <color name="theme2Accent">#FFF9C4</color>
-
-    <color name="theme3Primary">#8BC34A</color>
-    <color name="theme3PrimaryDark">#689F38</color>
-    <color name="theme3Accent">#DCEDC8</color>
-    <attr name="input" format="reference" />
-    <attr name="buttonToNextPage" format="reference" />
-    <attr name="contact" format="reference" />
+    <color name="blueInput">#1D4E72</color>
+    <color name="buttonToNextPage">#051725</color>
+    <color name="contact">#072943</color>
 </resources>

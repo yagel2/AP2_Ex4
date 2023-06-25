@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/input"
+    android:background="@color/blueInput"
     tools:context=".Settings">
     <ImageButton
         android:id="@+id/backButton"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:text="@string/Settings"
-            android:textColor="?attr/buttonToNextPage"
+            android:textColor="@color/buttonToNextPage"
             android:textSize="35sp" />
 
         <!-- Day/Night Mode -->
@@ -49,7 +49,7 @@
             android:padding="10dp"
             android:text="@string/dayMode"
             android:textSize="20sp"
-            android:thumbTint="?attr/buttonToNextPage"
+            android:thumbTint="@color/buttonToNextPage"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 
@@ -62,7 +62,7 @@
             android:padding="10dp"
             android:text="@string/English"
             android:textSize="20sp"
-            android:thumbTint="?attr/buttonToNextPage"
+            android:thumbTint="@color/buttonToNextPage"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <!-- Theme button -->
@@ -70,7 +70,7 @@
             android:id="@+id/buttonThemeColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/buttonToNextPage"
+            android:backgroundTint="@color/buttonToNextPage"
             android:padding="10dp"
             android:text="@string/Theme"
             android:textColor="@color/white"
@@ -87,7 +87,7 @@
             android:inputType="text"
             android:minHeight="48dp"
             android:padding="10dp"
-            android:textColorHint="?attr/buttonToNextPage"
+            android:textColorHint="@color/buttonToNextPage"
             android:textSize="20sp" />
 
         <!-- Save button -->
@@ -95,7 +95,7 @@
             android:id="@+id/buttonSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/buttonToNextPage"
+            android:backgroundTint="@color/buttonToNextPage"
             android:padding="10dp"
             android:text="@string/Save"
             android:textColor="@color/white"
