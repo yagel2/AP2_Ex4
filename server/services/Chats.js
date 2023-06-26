@@ -75,11 +75,8 @@ const deleteChat = async (id) => {
 const findReceiver = async (currentUsername, chatId) => {
   const chat = await Chats.findById(chatId).populate('users');
   const receiver = chat.users.find(user => user.username !== currentUsername);
-
   if (!receiver) return null;
-
   const receiverDetails = await User.findOne({username: receiver.username});
-
   return receiverDetails ? receiverDetails.socketId : null;
 };
 
