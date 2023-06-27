@@ -55,7 +55,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         TextView usernameHeading = findViewById(R.id.usernameHeading);
         usernameHeading.setText(this.userApi.getConnectedUser().getUsername());
         ShapeableImageView userProfilePic = findViewById(R.id.userProfilePic);
-        userProfilePic.setImageBitmap(Messages.convertToBitmap(this.userApi.getConnectedUser().getProfilePic()));
+        userProfilePic.setImageBitmap(Messages.convertToBitmap(this.userApi.getConnectedUser().getImage()));
         if (db == null) {
             db = Room.databaseBuilder(getApplicationContext(),
                     ContactDB.class, "contactsDB").allowMainThreadQueries().build();
