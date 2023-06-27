@@ -1,20 +1,47 @@
 package com.example.ap2_ex4;
 
 public class User {
-    private final String username;
-    private final String profilePic;
-
-    public User(String username, String password, String displayName, String profilePic) {
-        this.username = username;
-        this.profilePic = profilePic;
-    }
+    private String username;
+    private String password;
+    private String displayName;
+    private String profilePic;
 
     public String getUsername() {
         return username;
     }
 
-    public String getProfilePic() {
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public User(String username, String password, String displayName, String profilePic) {
+        this.username = username;
+        this.password = password;
+        this.displayName = displayName;
+        this.profilePic = profilePic;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getImage() {
         return profilePic;
     }
 
+    public void setImage(String image) {
+        this.profilePic = image;
+    }
 }
