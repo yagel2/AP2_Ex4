@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.contacts.Contacts;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 public class Connection extends AppCompatActivity {
     private String currentLanguage;
@@ -25,8 +24,7 @@ public class Connection extends AppCompatActivity {
         currentLanguage = LocaleHelper.getSelectedLanguage(this);
         LocaleHelper.setLocale(this, currentLanguage);
         setContentView(R.layout.connection);
-        initFields();
-        handleConnection();
+        init();
     }
 
     @Override
@@ -37,9 +35,10 @@ public class Connection extends AppCompatActivity {
         }
     }
 
-    private void initFields() {
-        usernameInput = findViewById(R.id.editTextTextUsername);
-        passwordInput = findViewById(R.id.editTextTextPassword);
+    private void init() {
+        usernameInput = findViewById(R.id.editTextUsername);
+        passwordInput = findViewById(R.id.editTextPassword);
+        handleConnection();
     }
 
     private void handleConnection() {
@@ -50,11 +49,6 @@ public class Connection extends AppCompatActivity {
                         usernameInput.getText().toString(), passwordInput.getText().toString());
                 UserAPI.getInstance().loginUser(connectionDetails, success -> {
                     if (success) {
-                        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(
-                                Connection.this, instanceIdResult -> {
-                                    String newToken = instanceIdResult.getToken();
-                                }
-                        );
                         Intent intent = new Intent(Connection.this, Contacts.class);
                         startActivity(intent);
                     }

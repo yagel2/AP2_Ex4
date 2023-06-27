@@ -1,36 +1,29 @@
 package com.example.ap2_ex4.messages;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-
 import android.os.Bundle;
-
+import java.util.Calendar;
 import androidx.room.Room;
-
+import android.util.Base64;
 import java.util.ArrayList;
-
 import com.example.ap2_ex4.R;
-
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.ImageView;
+import android.graphics.Bitmap;
 import android.widget.ImageButton;
+import java.text.SimpleDateFormat;
+import android.graphics.BitmapFactory;
 import android.annotation.SuppressLint;
-
 import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.LocaleHelper;
 import com.example.ap2_ex4.contacts.Contact;
 import com.example.ap2_ex4.contacts.Contacts;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.ap2_ex4.api.MessageFromServer;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.google.android.material.imageview.ShapeableImageView;
 
 public class Messages extends AppCompatActivity implements MessageAdapter.OnItemClickListener {
     private UserAPI userApi;
@@ -39,7 +32,6 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
     private Contact currentContact;
     private MessageAdapter messageAdapter;
     private RecyclerView messagesRecyclerView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,15 +68,20 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
         handleMessages();
     }
 
+    public static Bitmap convertToBitmap(String picture) {
+        byte[] decodedBytes = Base64.decode(picture, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+    }
+
     private void handleMessages() {
         TextView displayName = findViewById(R.id.textName);
         ImageButton sendButton = findViewById(R.id.buttonSend);
         ImageButton settingsButton = findViewById(R.id.backButton);
-        ImageView contactProfilePic = findViewById(R.id.imageProfile);
+        ShapeableImageView contactProfilePic = findViewById(R.id.imageProfile);
         RecyclerView messagesRecyclerView = findViewById(R.id.messages_recycler_view);
 
         displayName.setText(currentContact.getDisplayName());
-        contactProfilePic.setImageResource(currentContact.getProfilePic());
+        contactProfilePic.setImageBitmap(convertToBitmap(currentContact.getProfilePic()));
 
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -127,6 +124,7 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
     private void getMessages() {
         new Thread(() -> userApi.getMessages(currentContact.getServerId(), success -> {
             if (success) {
+                db.messageDao().deleteAllMessages();
                 String lastTime = "";
                 List<MessageFromServer> messages = userApi.getCurrentMessages();
                 for (int i = messages.size() - 1; i >= 0; i--) {

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.view.LayoutInflater;
 import androidx.annotation.NonNull;
 import android.annotation.SuppressLint;
+import com.example.ap2_ex4.messages.Messages;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
@@ -82,6 +83,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         public void bind(final Contact contact, final OnItemClickListener listener) {
             contactDisplayName.setText(contact.getDisplayName());
             contactLastTime.setText(contact.getLastTime());
+            contactProfilePic.setImageBitmap(Messages.convertToBitmap(contact.getProfilePic()));
             itemView.setOnClickListener(v -> listener.onItemClick(contact));
             itemView.setOnLongClickListener(v -> {
                 listener.onItemLongClick(contact);
