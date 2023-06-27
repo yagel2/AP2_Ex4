@@ -1,22 +1,19 @@
 # Advanced programming project - instant messaging service
 
-We received an extension of time to submit the exercise on 20/5
+How to run: Download all files and folders from GitHub to your android project. Download node modules and dependencies for server folder by the command 'npm install'. Then run a local mongodb server with mongodb port (27017) with address mongodb://127.0.0.1:27017. Then, you can run the server from the server directory, by the command 'npm start'. After that, Choose an emulator of your choice (we used Pixel 6 API 30) and run the app.
 
-How to run: Download all files and folders from GitHub to some folder, download node modules and the required libraries to work with React, then write in the terminal the command "npm start"
+**Unfortunately, we did not have time to implement the Firebase part, so the application works without notifications between the clients.**
 
-Folders:
-1. public - The pictures folder and the main page index.html
-2. src - chatScreen and homePage folders, other main files
-3. src/chatScreen - All components of the chat screen
-4. src/homePage - All components and help files of the registration and login screen
+**Registration activity** - in this section, you must fill in all the fields including uploading a profile picture, the password must contain a combination of numbers and letters and be at least 8 characters long.
 
-In this project we present the design and logical infrastructure for our instant messaging service without a server side.
+**Login activity** - in this section you must fill in the user information (username and password) with which you registered for our application.
 
-* Home page - A screen to connect to the system will appear on the main screen, if the username and password are correct and exist in the system, you will be transferred directly to the chats screen. If you have not yet registered with our system, you can click on the link that will take you to our registration screen. 
+**Contacts menu activity** - in this section you can add contacts registered to the application by using the add button in the lower right part of the screen, you can also scroll through the list of contacts and select the contact you want to chat with.
+For your convenience, your username and profile picture will be displayed at the top of the screen next to the settings button.
 
-* ChatScreen - On this screen you can add contacts as you wish using the dedicated button and chat with each contact, while we will save the content of the conversations with the other contacts. To select a specific contact you want to chat with, you can click on the contact from the list of contacts on the left, and the contact's details will appear at the top of the screen, and the last conversation with him will appear in the central part. In the top right corner of the screen, the logout button will appear which will take you to the home screen.
-Also, your username will always appear above the contacts and to send messages or add people, you can use the enter key or the dedicated button.
+**Chat screen activity** - on this screen you can chat with the contact you selected. We will make sure to save the message history for you so that you can leave the chat with peace of mind and return to the conversation at your leisure.
 
-Requirements for password: The password must contain at least 8 characters consisting of a combination of letters and numbers.
+**Settings activity** - in this section you can choose to change the language from English to Hebrew and vice versa, as well as change the theme between day and night mode. You can also edit the server address with which the application communicates in the following format: http://ip:port, for example: http://127.0.0.1:55555.
+Also, a logout button is attached to protect your privacy.
 
-Enjoy visiting the website :)
+Enjoy visiting the app :)
