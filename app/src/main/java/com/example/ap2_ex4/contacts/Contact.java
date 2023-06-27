@@ -9,10 +9,10 @@ public class Contact {
     private int id;
     private String serverId;
     private String lastTime;
-    private final int profilePic;
+    private final String profilePic;
     private final String username;
     private final String displayName;
-    public Contact(String username, String displayName, String serverId, int profilePic) {
+    public Contact(String username, String displayName, String serverId, String profilePic) {
         this.lastTime = "";
         this.serverId = serverId;
         this.username = username;
@@ -28,7 +28,7 @@ public class Contact {
         return serverId;
     }
 
-    public int getProfilePic() {
+    public String getProfilePic() {
         return profilePic;
     }
 

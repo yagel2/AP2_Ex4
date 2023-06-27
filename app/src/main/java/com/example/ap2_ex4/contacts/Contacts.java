@@ -22,6 +22,7 @@ import com.example.ap2_ex4.api.LastAddedContact;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Contacts extends AppCompatActivity implements ContactsAdapter.OnItemClickListener {
@@ -53,6 +54,8 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         this.userApi = UserAPI.getInstance();
         TextView usernameHeading = findViewById(R.id.usernameHeading);
         usernameHeading.setText(this.userApi.getConnectedUser().getUsername());
+        ShapeableImageView userProfilePic = findViewById(R.id.userProfilePic);
+        userProfilePic.setImageBitmap(Messages.convertToBitmap(this.userApi.getConnectedUser().getProfilePic()));
         if (db == null) {
             db = Room.databaseBuilder(getApplicationContext(),
                     ContactDB.class, "contactsDB").allowMainThreadQueries().build();
@@ -82,6 +85,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
             AlertDialog.Builder builder = new AlertDialog.Builder(Contacts.this);
             builder.setTitle("Add a new contact");
             final EditText input = new EditText(Contacts.this);
+            input.setHint("Insert contact's username");
             builder.setView(input);
             builder.setPositiveButton("OK", (dialog, which) -> {
                 String name = input.getText().toString();
@@ -98,10 +102,11 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
     private void getChats() {
         new Thread(() -> userApi.getChats(success -> {
             if (success) {
+                db.contactDao().deleteAllContacts();
                 List<Chat> chats = userApi.getAllChatsAfterServer();
                 for (Chat chat : chats) {
                     Contact contact = new Contact(chat.getUser().getUsername(),
-                            chat.getUser().getDisplayName(), chat.getId(), R.drawable.person_circle);
+                            chat.getUser().getDisplayName(), chat.getId(), chat.getUser().getImage());
                     if (chat.getLastMessage() != null) {
                         contact.setLastTime(Messages.extractTime(chat.getLastMessage().getCreated()));
                     } else {
@@ -135,7 +140,7 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
                 LastAddedContact contactDetails = userApi.getLastAdded();
                 Contact newContact = new Contact(contactDetails.getContact().getUsername(),
                         contactDetails.getContact().getDisplayName(),
-                        contactDetails.getId(), R.drawable.person_circle);
+                        contactDetails.getId(), contactDetails.getContact().getImage());
                 contactsAdapter.addContact(newContact);
             }
         });
@@ -143,10 +148,8 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
 
     @SuppressLint("NotifyDataSetChanged")
     private void deleteContact(Contact contact) {
+        contactsAdapter.deleteContact(contact);
         userApi.deleteContact(contact.getServerId(), success -> {
-            if (success) {
-                contactsAdapter.deleteContact(contact);
-            }
         });
     }
 
@@ -162,8 +165,8 @@ public class Contacts extends AppCompatActivity implements ContactsAdapter.OnIte
         AlertDialog.Builder builder = new AlertDialog.Builder(Contacts.this);
         builder.setTitle("Delete Contact");
         builder.setMessage("Are you sure you want to delete this contact?");
-        builder.setPositiveButton("Yes", (dialog, which) -> deleteContact(contact));
         builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+        builder.setPositiveButton("Yes", (dialog, which) -> deleteContact(contact));
         builder.show();
     }
 }

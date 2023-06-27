@@ -27,17 +27,19 @@
         android:background="@color/blueInput"
         tools:layout_editor_absoluteX="0dp">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/userProfilePic"
             android:layout_width="57dp"
             android:layout_height="57dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:src="@drawable/person_circle"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/circleImageView"
             android:importantForAccessibility="no" />
 
         <TextView

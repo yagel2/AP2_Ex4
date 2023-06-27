@@ -1,20 +1,27 @@
 package com.example.ap2_ex4.api;
 
 import retrofit2.Call;
+
 import java.util.List;
+
 import okhttp3.MediaType;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import okhttp3.RequestBody;
+
 import java.io.IOException;
+
 import okhttp3.OkHttpClient;
+
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.example.ap2_ex4.R;
 import com.example.ap2_ex4.User;
 import com.example.ap2_ex4.MyApplication;
 import com.example.ap2_ex4.ConnectionDetails;
+
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -31,40 +38,24 @@ public class UserAPI {
     private List<MessageFromServer> currentMessages;
 
     private UserAPI() {
-//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-//        OkHttpClient client = new OkHttpClient.Builder()
-//                .addInterceptor(interceptor)
-//                .build();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
         webServiceAPI = retrofit.create(WebServicesApi.class);
     }
 
-    public void setRetrofit(String BaseUrl) {
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BaseUrl + "/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        webServiceAPI = retrofit.create(WebServicesApi.class);
-    }
-
-    public boolean isFirstContacts() {
-        return firstContacts;
-    }
-
-    public boolean isFirstMessages() {
-        return firstMessages;
-    }
-
-    public void setFirstContacts(boolean firstContacts) {
-        this.firstContacts = firstContacts;
-    }
-
-    public void setFirstMessages(boolean firstMessages) {
-        this.firstMessages = firstMessages;
+    public static synchronized UserAPI getInstance() {
+        if (userAPI == null) {
+            userAPI = new UserAPI();
+        }
+        return userAPI;
     }
 
     public User getConnectedUser() {
@@ -75,11 +66,32 @@ public class UserAPI {
         return lastAdded;
     }
 
-    public static synchronized UserAPI getInstance() {
-        if (userAPI == null) {
-            userAPI = new UserAPI();
-        }
-        return userAPI;
+    public List<MessageFromServer> getCurrentMessages() {
+        return currentMessages;
+    }
+
+    public boolean isFirstContacts() {
+        return firstContacts;
+    }
+
+    public boolean isFirstMessages() {
+        return firstMessages;
+    }
+
+    public void setRetrofit(String BaseUrl) {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BaseUrl + "/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        webServiceAPI = retrofit.create(WebServicesApi.class);
+    }
+
+    public void setFirstContacts(boolean firstContacts) {
+        this.firstContacts = firstContacts;
+    }
+
+    public void setFirstMessages(boolean firstMessages) {
+        this.firstMessages = firstMessages;
     }
 
     public void registerUser(User user, CallbackResponse callback) {
@@ -135,18 +147,17 @@ public class UserAPI {
     }
 
     public void loginUser(ConnectionDetails user, CallbackResponse callback) {
-        Gson gson = new Gson();
-        String jsonBody = gson.toJson(user);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"),
-                jsonBody);
         Call<String> call = this.webServiceAPI.loginUser(user);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     setToken(response.body());
-                    getUser(user.getUsername(), callback);
-                    callback.onResponse(true);
+                    getUser(user.getUsername(), success -> {
+                        if (success) {
+                            callback.onResponse(true);
+                        }
+                    });
                 } else {
                     Toast.makeText(MyApplication.context, "Username or password doesn't match",
                             Toast.LENGTH_LONG).show();
@@ -186,10 +197,6 @@ public class UserAPI {
                 t.printStackTrace();
             }
         });
-    }
-
-    public List<Chat> getAllChatsAfterServer() {
-        return currentChats;
     }
 
     public void addContact(String username, CallbackResponse callback) {
@@ -245,7 +252,6 @@ public class UserAPI {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(MyApplication.context, "Request Failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 t.printStackTrace();
             }
         });
@@ -277,8 +283,8 @@ public class UserAPI {
         });
     }
 
-    public List<MessageFromServer> getCurrentMessages() {
-        return currentMessages;
+    public List<Chat> getAllChatsAfterServer() {
+        return currentChats;
     }
 
     public void addMessage(String msg, String chatId, CallbackResponse callback) {
