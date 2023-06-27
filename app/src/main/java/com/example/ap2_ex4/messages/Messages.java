@@ -1,23 +1,35 @@
 package com.example.ap2_ex4.messages;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
 import android.os.Bundle;
+
 import androidx.room.Room;
+
 import java.util.ArrayList;
+
 import com.example.ap2_ex4.R;
+
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.ImageButton;
 import android.annotation.SuppressLint;
+
 import com.example.ap2_ex4.api.UserAPI;
 import com.example.ap2_ex4.LocaleHelper;
 import com.example.ap2_ex4.contacts.Contact;
 import com.example.ap2_ex4.contacts.Contacts;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.ap2_ex4.api.MessageFromServer;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class Messages extends AppCompatActivity implements MessageAdapter.OnItemClickListener {
@@ -97,7 +109,18 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
     }
 
     public static String extractTime(String date) {
-        return date.substring(11, 16);
+        String time = date.substring(11, 16);
+        try {
+            @SuppressLint("SimpleDateFormat")
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dateFormat.parse(time));
+            calendar.add(Calendar.HOUR_OF_DAY, 3);
+            return dateFormat.format(calendar.getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -106,7 +129,7 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
             if (success) {
                 String lastTime = "";
                 List<MessageFromServer> messages = userApi.getCurrentMessages();
-                for (int i = messages.size() - 1; i >= 0 ; i--) {
+                for (int i = messages.size() - 1; i >= 0; i--) {
                     String sender = "sender";
                     int type;
                     if (!messages.get(i).getSender().getUsername().equals(currentContact.getUsername())) {
@@ -141,5 +164,6 @@ public class Messages extends AppCompatActivity implements MessageAdapter.OnItem
     }
 
     @Override
-    public void onItemClick(Message item) {}
+    public void onItemClick(Message item) {
+    }
 }

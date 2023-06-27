@@ -17,10 +17,6 @@ const User = new Schema({
   profilePic: {
     type: String,
     required: true
-  },
-  firebaseToken : {
-    type: String,
-    default: null
   }
 });
 

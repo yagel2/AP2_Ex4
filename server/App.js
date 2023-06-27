@@ -32,16 +32,6 @@ app.use('/api/Chats', chats);
 const messages = require('./routes/Message');
 app.use('/api/Chats', messages);
 
-const firebase = require('./routes/Firebase');
-app.use('/api/Firebase', firebase);
-
-const admin = require('firebase-admin');
-const serviceAccount = require("./firebaseKey.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
-
 const http = require('http');
 const {Server} = require("socket.io");
 const server = http.createServer(app);
